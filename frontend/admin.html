@@ -5,438 +5,1113 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Agency Portal — The Sparqlane</title>
     <meta name="robots" content="noindex, nofollow">
-    <link rel="stylesheet" href="css/style.css">
-
-    <!-- Favicon & App Icons (Official Logo) -->
     <link rel="icon" type="image/png" href="img/logo.png">
     <link rel="shortcut icon" href="favicon.ico">
     <link rel="apple-touch-icon" href="img/logo.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;800&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap">
+
+    <style>
+        /* ── Admin Portal — The Sparqlane ─────────────────────────────────── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg: #1a0509;
+            --bg-card: rgba(37,8,18,0.96);
+            --bg-sidebar: rgba(28,5,14,0.98);
+            --bg-panel: rgba(37,8,18,0.88);
+            --bg-input: rgba(54,12,26,0.6);
+            --border: rgba(212,175,55,0.18);
+            --border-gold: rgba(212,175,55,0.45);
+            --border-hover: rgba(212,175,55,0.65);
+            --gold: #D4AF37;
+            --gold-dim: #b89228;
+            --gold-soft: rgba(212,175,55,0.12);
+            --gold-glow: rgba(212,175,55,0.3);
+            --text: #F8F3EC;
+            --text-muted: #B8A898;
+            --text-secondary: #E5D7C8;
+            --accent: #800020;
+            --success: #10b981;
+            --error: #ef4444;
+            --warning: #f59e0b;
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --radius-lg: 20px;
+            --radius-xl: 28px;
+            --transition: 0.25s cubic-bezier(0.4,0,0.2,1);
+            --sidebar-width: 260px;
+        }
+
+        html { font-size: 16px; -webkit-font-smoothing: antialiased; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Animated background grain */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(128,0,32,0.22) 0%, transparent 70%),
+                radial-gradient(ellipse 50% 40% at 90% 90%, rgba(212,175,55,0.08) 0%, transparent 60%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* ── LOGIN SCREEN ───────────────────────────────────────────────── */
+        #admin-login-screen {
+            position: fixed;
+            inset: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 20px;
+        }
+
+        .login-bg-blur {
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(ellipse 100% 80% at 50% 0%, rgba(128,0,32,0.3) 0%, rgba(26,5,9,0.97) 60%);
+            backdrop-filter: blur(2px);
+        }
+
+        .login-card {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            max-width: 420px;
+            background: rgba(28,5,14,0.96);
+            border: 1px solid var(--border-gold);
+            border-radius: var(--radius-xl);
+            padding: 48px 40px;
+            box-shadow: 0 0 80px rgba(212,175,55,0.15), 0 30px 80px rgba(0,0,0,0.8);
+            animation: loginSlideUp 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+        }
+
+        @keyframes loginSlideUp {
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        .login-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 32px;
+            justify-content: center;
+        }
+
+        .login-logo img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            border-radius: 10px;
+        }
+
+        .login-logo-text .brand { font-family: 'Playfair Display', serif; font-size: 1.25rem; color: var(--text); }
+        .login-logo-text .brand .q { color: var(--gold); }
+        .login-logo-text .sub { font-size: 0.65rem; letter-spacing: 0.15em; color: var(--text-muted); text-transform: uppercase; display: block; margin-top: 2px; }
+
+        .login-title { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--text); margin-bottom: 6px; text-align: center; }
+        .login-sub { color: var(--text-muted); font-size: 0.875rem; text-align: center; margin-bottom: 32px; }
+
+        .form-field { margin-bottom: 18px; }
+        .form-field label { display: block; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 8px; }
+        .form-field input, .form-field select, .form-field textarea {
+            width: 100%;
+            background: var(--bg-input);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 12px 16px;
+            color: var(--text);
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: border-color var(--transition), box-shadow var(--transition);
+            outline: none;
+        }
+        .form-field input:focus, .form-field select:focus, .form-field textarea:focus {
+            border-color: var(--border-gold);
+            box-shadow: 0 0 0 3px var(--gold-soft);
+        }
+        .form-field textarea { resize: vertical; min-height: 80px; }
+        .form-field select option { background: #1a0509; }
+
+        .btn-login {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+            color: #120308;
+            font-family: inherit;
+            font-size: 0.95rem;
+            font-weight: 700;
+            border: none;
+            border-radius: var(--radius-md);
+            cursor: pointer;
+            transition: var(--transition);
+            letter-spacing: 0.03em;
+            margin-top: 8px;
+        }
+        .btn-login:hover { transform: translateY(-2px); box-shadow: 0 8px 30px var(--gold-glow); }
+        .btn-login:active { transform: translateY(0); }
+        .btn-login:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+
+        .login-alert {
+            display: none;
+            padding: 10px 14px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+            animation: fadeIn 0.3s ease;
+        }
+        .login-alert.error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.4); color: #fca5a5; display: block; }
+        .login-alert.success { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.4); color: #6ee7b7; display: block; }
+
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+        /* ── DASHBOARD LAYOUT ───────────────────────────────────────────── */
+        #admin-dashboard {
+            display: none;
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+        }
+        #admin-dashboard.active { display: flex; }
+
+        /* ── SIDEBAR ───────────────────────────────────────────────────── */
+        .admin-sidebar {
+            width: var(--sidebar-width);
+            min-height: 100vh;
+            background: var(--bg-sidebar);
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            z-index: 100;
+            overflow-y: auto;
+            transition: transform var(--transition);
+        }
+
+        .sidebar-header {
+            padding: 24px 20px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .sidebar-logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            text-decoration: none;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-logo img { width: 38px; height: 38px; object-fit: contain; border-radius: 8px; }
+        .sidebar-logo-text .brand { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text); display: block; }
+        .sidebar-logo-text .brand .q { color: var(--gold); }
+        .sidebar-logo-text .sub { font-size: 0.6rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); }
+
+        .sidebar-user-badge {
+            margin-top: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--gold-soft);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 7px 12px;
+            font-size: 0.78rem;
+            color: var(--text-secondary);
+        }
+        .sidebar-user-badge .dot { width: 7px; height: 7px; background: var(--success); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 6px var(--success); }
+
+        .sidebar-nav { flex: 1; padding: 16px 12px; }
+
+        .sidebar-section-label {
+            font-size: 0.62rem;
+            font-weight: 700;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 8px 8px 4px;
+            margin-top: 8px;
+        }
+
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding: 11px 14px;
+            border: none;
+            background: transparent;
+            border-radius: var(--radius-sm);
+            color: var(--text-muted);
+            font-family: inherit;
+            font-size: 0.875rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: var(--transition);
+            text-align: left;
+            margin-bottom: 2px;
+            position: relative;
+        }
+        .sidebar-btn:hover { background: var(--gold-soft); color: var(--text); }
+        .sidebar-btn.active {
+            background: linear-gradient(90deg, var(--gold-soft), rgba(212,175,55,0.05));
+            color: var(--gold);
+            border-left: 3px solid var(--gold);
+            padding-left: 11px;
+        }
+        .sidebar-btn .icon { font-size: 1rem; width: 20px; text-align: center; }
+
+        .sidebar-badge {
+            margin-left: auto;
+            background: var(--accent);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 2px 7px;
+            border-radius: 20px;
+        }
+
+        .sidebar-footer {
+            padding: 16px 12px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn-logout {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            width: 100%;
+            padding: 10px 14px;
+            background: rgba(239,68,68,0.08);
+            border: 1px solid rgba(239,68,68,0.2);
+            border-radius: var(--radius-sm);
+            color: #fca5a5;
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-logout:hover { background: rgba(239,68,68,0.18); border-color: rgba(239,68,68,0.4); }
+
+        .session-warn {
+            font-size: 0.72rem;
+            color: var(--warning);
+            text-align: center;
+            padding: 6px;
+            display: none;
+        }
+
+        /* ── MAIN CONTENT AREA ─────────────────────────────────────────── */
+        .admin-main {
+            margin-left: var(--sidebar-width);
+            flex: 1;
+            min-height: 100vh;
+            padding: 32px 36px;
+            max-width: calc(100vw - var(--sidebar-width));
+        }
+
+        /* ── PANELS ────────────────────────────────────────────────────── */
+        .admin-panel { display: none; }
+        .admin-panel.active { display: block; animation: panelIn 0.3s ease both; }
+        @keyframes panelIn { from { opacity: 0; transform: translateX(10px); } to { opacity: 1; transform: translateX(0); } }
+
+        /* ── PAGE HEADER ───────────────────────────────────────────────── */
+        .panel-header {
+            margin-bottom: 28px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .panel-header h1 { font-family: 'Playfair Display', serif; font-size: 1.7rem; color: var(--text); }
+        .panel-header p { color: var(--text-muted); font-size: 0.875rem; margin-top: 4px; }
+
+        /* ── STATS CARDS ───────────────────────────────────────────────── */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+            transition: var(--transition);
+        }
+        .stat-card:hover { border-color: var(--border-gold); transform: translateY(-2px); }
+        .stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold), transparent); }
+
+        .stat-card .stat-icon { font-size: 1.5rem; margin-bottom: 10px; }
+        .stat-card .stat-value { font-family: 'Playfair Display', serif; font-size: 1.9rem; color: var(--gold); font-weight: 700; line-height: 1; }
+        .stat-card .stat-label { font-size: 0.75rem; color: var(--text-muted); margin-top: 4px; text-transform: uppercase; letter-spacing: 0.08em; }
+
+        /* ── PREMIUM TABLE ─────────────────────────────────────────────── */
+        .table-wrap {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            margin-bottom: 28px;
+        }
+
+        .table-head-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 18px 24px 16px;
+            border-bottom: 1px solid var(--border);
+        }
+        .table-title { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text); }
+
+        table { width: 100%; border-collapse: collapse; }
+        thead th {
+            font-size: 0.7rem;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            padding: 12px 20px;
+            text-align: left;
+            background: rgba(212,175,55,0.04);
+            border-bottom: 1px solid var(--border);
+        }
+        tbody tr {
+            border-bottom: 1px solid rgba(212,175,55,0.06);
+            transition: background var(--transition);
+        }
+        tbody tr:last-child { border-bottom: none; }
+        tbody tr:hover { background: rgba(212,175,55,0.04); }
+        tbody td {
+            padding: 14px 20px;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            vertical-align: middle;
+        }
+        tbody td strong { color: var(--text); font-weight: 600; }
+
+        /* ── ENQUIRY CARDS ─────────────────────────────────────────────── */
+        .enquiry-cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+            gap: 18px;
+            margin-bottom: 28px;
+        }
+
+        .enquiry-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 22px;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .enquiry-card:hover { border-color: var(--border-gold); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+        .enquiry-card.unread { border-color: rgba(212,175,55,0.35); }
+        .enquiry-card.unread::before { content: ''; position: absolute; top: 0; left: 0; bottom: 0; width: 3px; background: var(--gold); }
+
+        .eq-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+        .eq-name { font-family: 'Playfair Display', serif; font-size: 1.05rem; color: var(--text); }
+        .eq-date { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+
+        .read-pill {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            flex-shrink: 0;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+        }
+        .read-pill.unread { background: rgba(212,175,55,0.15); color: var(--gold); border: 1px solid rgba(212,175,55,0.4); }
+        .read-pill.read { background: rgba(16,185,129,0.1); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+        .read-pill:hover { opacity: 0.8; }
+
+        .eq-meta { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+        .eq-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            padding: 4px 10px;
+            background: var(--gold-soft);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            font-size: 0.72rem;
+            color: var(--text-secondary);
+        }
+
+        .eq-message {
+            font-size: 0.82rem;
+            color: var(--text-muted);
+            line-height: 1.6;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .eq-footer { margin-top: 14px; padding-top: 12px; border-top: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; }
+        .eq-contact a { font-size: 0.78rem; color: var(--gold); text-decoration: none; }
+        .eq-contact a:hover { opacity: 0.8; }
+
+        /* ── FORM SECTION ──────────────────────────────────────────────── */
+        .form-section {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 28px;
+            margin-bottom: 28px;
+        }
+        .form-section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.1rem;
+            color: var(--text);
+            margin-bottom: 24px;
+            padding-bottom: 14px;
+            border-bottom: 1px solid var(--border);
+        }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 16px; }
+        .form-row.triple { grid-template-columns: 1fr 1fr 1fr; }
+        .form-row.single { grid-template-columns: 1fr; }
+
+        .form-actions { display: flex; gap: 12px; margin-top: 8px; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+            padding: 10px 20px;
+            border-radius: var(--radius-sm);
+            font-family: inherit;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: var(--transition);
+            text-decoration: none;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dim));
+            color: #120308;
+        }
+        .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 6px 20px var(--gold-glow); }
+        .btn-secondary {
+            background: var(--gold-soft);
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-secondary:hover { border-color: var(--border-gold); background: rgba(212,175,55,0.18); }
+        .btn-danger { background: rgba(239,68,68,0.12); color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
+        .btn-danger:hover { background: rgba(239,68,68,0.22); }
+        .btn-sm { padding: 6px 12px; font-size: 0.78rem; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none !important; }
+
+        /* ── STATUS BADGE ──────────────────────────────────────────────── */
+        .badge {
+            display: inline-block;
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 0.68rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+        .badge-gold { background: rgba(212,175,55,0.15); color: var(--gold); border: 1px solid rgba(212,175,55,0.35); }
+        .badge-green { background: rgba(16,185,129,0.12); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.3); }
+        .badge-muted { background: rgba(184,168,152,0.1); color: var(--text-muted); border: 1px solid rgba(184,168,152,0.2); }
+        .badge-red { background: rgba(239,68,68,0.1); color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
+
+        /* ── ALERT ─────────────────────────────────────────────────────── */
+        .panel-alert {
+            display: none;
+            padding: 11px 16px;
+            border-radius: var(--radius-sm);
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .panel-alert.show { display: block; animation: fadeIn 0.3s ease; }
+        .panel-alert.success { background: rgba(16,185,129,0.12); border: 1px solid rgba(16,185,129,0.3); color: #6ee7b7; }
+        .panel-alert.error { background: rgba(239,68,68,0.12); border: 1px solid rgba(239,68,68,0.3); color: #fca5a5; }
+        .panel-alert.info { background: rgba(212,175,55,0.1); border: 1px solid rgba(212,175,55,0.25); color: var(--gold); }
+
+        /* ── TOGGLE SWITCH ─────────────────────────────────────────────── */
+        .toggle-btn {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            border: 1px solid rgba(184,168,152,0.25);
+            background: rgba(184,168,152,0.08);
+            color: var(--text-muted);
+            transition: var(--transition);
+        }
+        .toggle-btn.on { background: rgba(16,185,129,0.12); border-color: rgba(16,185,129,0.3); color: #6ee7b7; }
+
+        /* ── CHECKBOX ──────────────────────────────────────────────────── */
+        .check-group { display: flex; align-items: center; gap: 8px; }
+        .check-group label { font-size: 0.85rem; color: var(--text-secondary); cursor: pointer; }
+        .check-group input[type="checkbox"] { width: 16px; height: 16px; accent-color: var(--gold); cursor: pointer; }
+
+        /* ── LOADING SPINNER ───────────────────────────────────────────── */
+        .spinner {
+            width: 28px;
+            height: 28px;
+            border: 3px solid var(--border);
+            border-top-color: var(--gold);
+            border-radius: 50%;
+            animation: spin 0.7s linear infinite;
+            margin: 24px auto;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .loading-row td { text-align: center; padding: 40px; color: var(--text-muted); }
+
+        /* ── MOBILE HAMBURGER SIDEBAR TOGGLE ───────────────────────────── */
+        .sidebar-toggle {
+            display: none;
+            position: fixed;
+            top: 16px;
+            left: 16px;
+            z-index: 200;
+            background: var(--bg-sidebar);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-sm);
+            padding: 8px 10px;
+            cursor: pointer;
+            color: var(--text);
+            font-size: 1.2rem;
+            line-height: 1;
+        }
+
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.6);
+            z-index: 99;
+        }
+
+        /* ── RESPONSIVE ────────────────────────────────────────────────── */
+        @media (max-width: 900px) {
+            :root { --sidebar-width: 240px; }
+            .admin-main { padding: 20px 18px 20px calc(var(--sidebar-width) + 18px); }
+        }
+
+        @media (max-width: 700px) {
+            .admin-sidebar { transform: translateX(-100%); }
+            .admin-sidebar.open { transform: translateX(0); }
+            .admin-main { margin-left: 0; max-width: 100vw; padding: 70px 16px 20px; }
+            .sidebar-toggle { display: block; }
+            .sidebar-overlay.show { display: block; }
+            .form-row { grid-template-columns: 1fr; }
+            .form-row.triple { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .enquiry-cards-grid { grid-template-columns: 1fr; }
+            .panel-header { flex-direction: column; align-items: flex-start; }
+        }
+
+        @media (max-width: 420px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .login-card { padding: 32px 22px; }
+        }
+    </style>
 </head>
 <body>
 
-    <!-- ── Navbar ──────────────────────────────────────────────────────────── -->
-    <nav class="navbar" id="navbar">
-        <div class="container">
-            <a href="index.html" class="nav-logo">
-                <img src="img/logo.png" alt="The Sparqlane Logo" class="nav-logo-img">
-                <div class="nav-logo-text">
-                    <span class="brand-name-title"><span class="brand-the">the</span> Spar<span class="brand-q">q</span>lane</span>
-                    <span class="brand-tagline-micro">AGENCY ADMIN PORTAL</span>
+    <!-- ── MOBILE SIDEBAR TOGGLE ────────────────────────────────────────── -->
+    <button class="sidebar-toggle" id="sidebarToggle" aria-label="Open menu">☰</button>
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+    <!-- ══════════════════════════════════════════════════════════════════ -->
+    <!--  LOGIN SCREEN                                                      -->
+    <!-- ══════════════════════════════════════════════════════════════════ -->
+    <div id="admin-login-screen">
+        <div class="login-bg-blur"></div>
+        <div class="login-card">
+            <div class="login-logo">
+                <img src="img/logo.png" alt="The Sparqlane">
+                <div class="login-logo-text">
+                    <span class="brand">the Spar<span class="q">q</span>lane</span>
+                    <span class="sub">Agency Portal</span>
                 </div>
-            </a>
-            <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
-                <span></span><span></span><span></span>
-            </button>
-            <ul class="nav-links" id="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="works.html">Works</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About</a></li>
-            </ul>
+            </div>
+            <h1 class="login-title">Welcome Back</h1>
+            <p class="login-sub">Sign in to manage your agency dashboard</p>
+
+            <div class="login-alert" id="login-alert"></div>
+
+            <form id="admin-login-form">
+                <div class="form-field">
+                    <label for="login-username">Username</label>
+                    <input type="text" id="login-username" placeholder="Enter username" autocomplete="username" required>
+                </div>
+                <div class="form-field">
+                    <label for="login-password">Password</label>
+                    <input type="password" id="login-password" placeholder="••••••••••" autocomplete="current-password" required>
+                </div>
+                <button type="submit" class="btn-login" id="login-btn">Sign In →</button>
+            </form>
         </div>
-    </nav>
+    </div>
 
-    <!-- ── Admin Page ─────────────────────────────────────────────────────── -->
-    <main class="admin-page">
-        <div class="container">
+    <!-- ══════════════════════════════════════════════════════════════════ -->
+    <!--  DASHBOARD                                                          -->
+    <!-- ══════════════════════════════════════════════════════════════════ -->
+    <div id="admin-dashboard">
 
-            <!-- ── Login Section ──────────────────────────────────────────── -->
-            <div id="admin-login-section">
-                <div class="admin-login fade-in">
-                    <div style="font-size:3rem;margin-bottom:16px;">🔐</div>
-                    <h2>Admin Access</h2>
-                    <p>Sign in to manage your portfolio, blog, and enquiries.</p>
+        <!-- ── SIDEBAR ─────────────────────────────────────────────────── -->
+        <aside class="admin-sidebar" id="adminSidebar">
+            <div class="sidebar-header">
+                <a href="index.html" class="sidebar-logo">
+                    <img src="img/logo.png" alt="The Sparqlane">
+                    <div class="sidebar-logo-text">
+                        <span class="brand">the Spar<span class="q">q</span>lane</span>
+                        <span class="sub">WHERE STORY MEETS CREATIVITY</span>
+                    </div>
+                </a>
+                <div class="sidebar-user-badge">
+                    <span class="dot"></span>
+                    <span id="sidebar-admin-user">PNG</span> — Admin
+                </div>
+            </div>
 
-                    <div id="login-alert" class="alert"></div>
+            <nav class="sidebar-nav">
+                <div class="sidebar-section-label">Overview</div>
+                <button class="sidebar-btn active" data-tab="enquiries" onclick="switchAdminTab('enquiries')">
+                    <span class="icon">📩</span> Enquiries
+                    <span class="sidebar-badge" id="unread-badge" style="display:none;">0</span>
+                </button>
 
-                    <form id="admin-login-form">
-                        <div class="form-group">
-                            <label for="login-username">Username</label>
-                            <input type="text" id="login-username" placeholder="admin" required>
+                <div class="sidebar-section-label">Content</div>
+                <button class="sidebar-btn" data-tab="videos" onclick="switchAdminTab('videos')">
+                    <span class="icon">🎬</span> Videos
+                </button>
+                <button class="sidebar-btn" data-tab="blog" onclick="switchAdminTab('blog')">
+                    <span class="icon">📝</span> Blog Posts
+                </button>
+
+                <div class="sidebar-section-label">Business</div>
+                <button class="sidebar-btn" data-tab="pricing" onclick="switchAdminTab('pricing')">
+                    <span class="icon">🏷️</span> Pricing Plans
+                </button>
+
+                <div class="sidebar-section-label">Config</div>
+                <button class="sidebar-btn" data-tab="settings" onclick="switchAdminTab('settings')">
+                    <span class="icon">⚙️</span> Site Settings
+                </button>
+            </nav>
+
+            <div class="sidebar-footer">
+                <span class="session-warn" id="session-warning">⚠️ Session expiring soon</span>
+                <button class="btn-logout" onclick="handleLogout()">
+                    <span>🚪</span> Sign Out
+                </button>
+            </div>
+        </aside>
+
+        <!-- ── MAIN CONTENT ─────────────────────────────────────────────── -->
+        <main class="admin-main">
+
+            <!-- ── ENQUIRIES PANEL ─────────────────────────────────────── -->
+            <div class="admin-panel active" id="panel-enquiries">
+                <div class="panel-header">
+                    <div>
+                        <h1>Client Enquiries</h1>
+                        <p>All incoming quote requests and client leads</p>
+                    </div>
+                </div>
+
+                <div class="stats-grid" id="enquiry-stats">
+                    <div class="stat-card">
+                        <div class="stat-icon">📩</div>
+                        <div class="stat-value" id="stat-total">—</div>
+                        <div class="stat-label">Total Leads</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">🔥</div>
+                        <div class="stat-value" id="stat-unread">—</div>
+                        <div class="stat-label">Unread</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-icon">✅</div>
+                        <div class="stat-value" id="stat-read">—</div>
+                        <div class="stat-label">Reviewed</div>
+                    </div>
+                </div>
+
+                <div id="enquiry-cards-container">
+                    <div class="spinner"></div>
+                </div>
+            </div>
+
+            <!-- ── VIDEOS PANEL ────────────────────────────────────────── -->
+            <div class="admin-panel" id="panel-videos">
+                <div class="panel-header">
+                    <div>
+                        <h1>Videos</h1>
+                        <p>Manage your portfolio reels and cinematic showcases</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <div class="table-head-row">
+                        <span class="table-title">🎬 All Videos</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Featured</th>
+                                <th>Order</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-videos-tbody">
+                            <tr class="loading-row"><td colspan="6"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title" id="video-form-title">+ Add New Video</div>
+                    <div class="panel-alert" id="video-alert"></div>
+                    <form id="video-form" onsubmit="handleAddVideo(event)">
+                        <input type="hidden" id="v-id">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="v-source-type">Source Type</label>
+                                <select id="v-source-type" onchange="toggleVideoSourceInputs()">
+                                    <option value="youtube">YouTube Link</option>
+                                    <option value="upload">Upload File</option>
+                                </select>
+                            </div>
+                            <div class="form-field">
+                                <label for="v-title">Title</label>
+                                <input type="text" id="v-title" placeholder="Video title" required>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <label for="login-password">Password</label>
-                            <input type="password" id="login-password" placeholder="••••••••" required>
+                        <div class="form-row">
+                            <div class="form-field" id="v-youtube-group">
+                                <label for="v-url">YouTube URL</label>
+                                <input type="url" id="v-url" placeholder="https://youtube.com/watch?v=...">
+                            </div>
+                            <div class="form-field" id="v-upload-group" style="display:none;">
+                                <label for="v-file">Upload Video (.mp4 / .mov)</label>
+                                <input type="file" id="v-file" accept="video/mp4,video/quicktime">
+                            </div>
+                            <div class="form-field" id="v-thumbnail-group">
+                                <label for="v-thumb-file">Thumbnail (optional)</label>
+                                <input type="file" id="v-thumb-file" accept="image/*">
+                            </div>
                         </div>
-                        <button type="submit" class="btn btn-primary" style="width:100%;">Sign In →</button>
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="v-category">Category</label>
+                                <select id="v-category">
+                                    <option value="cinematic">Cinematic</option>
+                                    <option value="reels">Reels</option>
+                                    <option value="wedding">Wedding</option>
+                                </select>
+                            </div>
+                            <div class="form-field" style="display:flex; align-items:center; gap:10px; padding-top:28px;">
+                                <div class="check-group">
+                                    <input type="checkbox" id="v-featured">
+                                    <label for="v-featured">Featured on Homepage</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="v-description">Description</label>
+                            <textarea id="v-description" placeholder="Brief description..."></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary" id="v-submit-btn">Add Video</button>
+                            <button type="button" class="btn btn-secondary" id="v-cancel-btn" onclick="cancelVideoEdit()" style="display:none;">Cancel</button>
+                        </div>
                     </form>
                 </div>
             </div>
 
-            <!-- ── Dashboard (hidden until login) ─────────────────────────── -->
-            <div id="admin-dashboard" class="admin-dashboard">
-                <div class="page-header" style="padding-bottom:24px;">
-                    <h1>Dashboard</h1>
-                    <p>Manage your videos, enquiries, and blog posts</p>
-                </div>
-
-                <!-- Tabs -->
-                <div class="admin-tabs-row" style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px; margin-bottom: 24px;">
-                    <div class="admin-tabs" style="margin-bottom:0;">
-                        <button class="admin-tab active" data-tab="videos" onclick="switchAdminTab('videos')">🎬 Videos</button>
-                        <button class="admin-tab" data-tab="enquiries" onclick="switchAdminTab('enquiries')">📩 Enquiries</button>
-                        <button class="admin-tab" data-tab="blog" onclick="switchAdminTab('blog')">📝 Blog</button>
-                        <button class="admin-tab" data-tab="pricing" onclick="switchAdminTab('pricing')">🏷️ Pricing</button>
-                        <button class="admin-tab" data-tab="settings" onclick="switchAdminTab('settings')">⚙️ Settings</button>
-                    </div>
-                    <div style="display:flex; align-items:center; gap:16px;">
-                        <span id="session-warning" style="font-size:0.9rem; color:var(--text-muted); display:none;">Session expiring...</span>
-                        <button class="btn btn-secondary" onclick="handleLogout()" style="padding: 8px 16px;">Logout 🚪</button>
+            <!-- ── BLOG PANEL ──────────────────────────────────────────── -->
+            <div class="admin-panel" id="panel-blog">
+                <div class="panel-header">
+                    <div>
+                        <h1>Blog Posts</h1>
+                        <p>Manage media articles and news updates</p>
                     </div>
                 </div>
 
-                <!-- ── Videos Panel ───────────────────────────────────────── -->
-                <div class="admin-panel active" id="panel-videos">
-                    <div class="admin-section-title">🎬 All Videos</div>
-
-                    <div class="admin-table-wrap">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Featured</th>
-                                    <th>Order</th>
-                                    <th>Date</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-videos-tbody">
-                                <tr><td colspan="6" style="text-align:center;padding:32px;">Loading...</td></tr>
-                            </tbody>
-                        </table>
+                <div class="table-wrap">
+                    <div class="table-head-row">
+                        <span class="table-title">📝 All Posts</span>
                     </div>
-
-                    <!-- Add Video Form -->
-                    <div class="admin-form">
-                        <h3 id="video-form-title">+ Add New Video</h3>
-                        <div id="video-alert" class="alert"></div>
-                        <form id="video-form" onsubmit="handleAddVideo(event)">
-                            <input type="hidden" id="v-id">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="v-source-type">Video Source Type</label>
-                                    <select id="v-source-type" onchange="toggleVideoSourceInputs()">
-                                        <option value="youtube">YouTube Link</option>
-                                        <option value="upload">Upload Video File</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="v-title">Title</label>
-                                    <input type="text" id="v-title" placeholder="Video title" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group" id="v-youtube-group">
-                                    <label for="v-url">YouTube URL</label>
-                                    <input type="url" id="v-url" placeholder="https://youtube.com/watch?v=..." required>
-                                </div>
-                                <div class="form-group" id="v-upload-group" style="display:none;">
-                                    <label for="v-file">Upload Video File (.mp4/.mov)</label>
-                                    <input type="file" id="v-file" accept="video/mp4,video/quicktime">
-                                </div>
-                                <div class="form-group" id="v-thumbnail-group">
-                                    <label for="v-thumb-file">Upload Thumbnail Image (Optional)</label>
-                                    <input type="file" id="v-thumb-file" accept="image/*">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="v-category">Category</label>
-                                    <select id="v-category">
-                                        <option value="cinematic">Cinematic</option>
-                                        <option value="reels">Reels</option>
-                                        <option value="wedding">Wedding</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label>&nbsp;</label>
-                                    <div class="checkbox-group" style="padding-top:8px;">
-                                        <input type="checkbox" id="v-featured">
-                                        <label for="v-featured">Featured on homepage</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="v-description">Description</label>
-                                <textarea id="v-description" rows="2" placeholder="Brief description..."></textarea>
-                            </div>
-                            <div style="display:flex; gap:12px;">
-                                <button type="submit" class="btn btn-primary" id="v-submit-btn">Add Video</button>
-                                <button type="button" class="btn btn-secondary" id="v-cancel-btn" onclick="cancelVideoEdit()" style="display:none;">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Category</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-blog-tbody">
+                            <tr class="loading-row"><td colspan="5"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
                 </div>
 
-                <!-- ── Enquiries Panel ────────────────────────────────────── -->
-                <div class="admin-panel" id="panel-enquiries">
-                    <div class="admin-section-title">📩 Client Enquiries</div>
-
-                    <div class="admin-table-wrap">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Email</th>
-                                    <th>Project</th>
-                                    <th>Budget</th>
-                                    <th>Date</th>
-                                    <th>Message</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-enquiries-tbody">
-                                <tr><td colspan="7" style="text-align:center;padding:32px;">Loading...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <!-- ── Blog Panel ─────────────────────────────────────────── -->
-                <div class="admin-panel" id="panel-blog">
-                    <div class="admin-section-title">📝 Blog Posts</div>
-
-                    <div class="admin-table-wrap">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Title</th>
-                                    <th>Category</th>
-                                    <th>Date</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-blog-tbody">
-                                <tr><td colspan="5" style="text-align:center;padding:32px;">Loading...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Add Blog Post Form -->
-                    <div class="admin-form">
-                        <h3>+ New Blog Post</h3>
-                        <div id="blog-alert" class="alert"></div>
-                        <form onsubmit="handleAddBlogPost(event)">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="b-title">Title</label>
-                                    <input type="text" id="b-title" placeholder="Post title" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="b-slug">Slug</label>
-                                    <input type="text" id="b-slug" placeholder="post-url-slug" required>
-                                </div>
+                <div class="form-section">
+                    <div class="form-section-title">+ New Blog Post</div>
+                    <div class="panel-alert" id="blog-alert"></div>
+                    <form onsubmit="handleAddBlogPost(event)">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="b-title">Title</label>
+                                <input type="text" id="b-title" placeholder="Article headline" required>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="b-category">Category</label>
-                                    <select id="b-category">
-                                        <option value="tips">Tips</option>
-                                        <option value="behind-the-scenes">Behind the Scenes</option>
-                                        <option value="gear">Gear</option>
-                                    </select>
-                                </div>
-                                <div class="form-group">
-                                    <label for="b-cover">Cover Image URL</label>
-                                    <input type="url" id="b-cover" placeholder="https://...">
-                                </div>
+                            <div class="form-field">
+                                <label for="b-slug">Slug (URL)</label>
+                                <input type="text" id="b-slug" placeholder="article-url-slug" required>
                             </div>
-                            <div class="form-group">
-                                <label for="b-content">Content (Markdown)</label>
-                                <textarea id="b-content" rows="10" placeholder="Write your post in markdown..." required></textarea>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="b-category">Category</label>
+                                <select id="b-category">
+                                    <option value="tips">Tips</option>
+                                    <option value="behind-the-scenes">Behind the Scenes</option>
+                                    <option value="gear">Gear</option>
+                                    <option value="news">News</option>
+                                </select>
                             </div>
-                            <div class="checkbox-group" style="margin-bottom:20px;">
+                            <div class="form-field">
+                                <label for="b-cover">Cover Image URL</label>
+                                <input type="url" id="b-cover" placeholder="https://...">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="b-content">Content (Markdown)</label>
+                            <textarea id="b-content" rows="8" placeholder="Write your post in markdown..." required></textarea>
+                        </div>
+                        <div class="form-actions" style="margin-top:12px;">
+                            <div class="check-group" style="margin-right:8px;">
                                 <input type="checkbox" id="b-published">
                                 <label for="b-published">Publish immediately</label>
                             </div>
                             <button type="submit" class="btn btn-primary">Create Post</button>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
-
-                <!-- ── Pricing Panel ───────────────────────────────────────── -->
-                <div class="admin-panel" id="panel-pricing">
-                    <div class="admin-section-title">🏷️ Pricing Plans</div>
-
-                    <div class="admin-table-wrap">
-                        <table class="admin-table">
-                            <thead>
-                                <tr>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Features</th>
-                                    <th>Popular</th>
-                                    <th>Active</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody id="admin-pricing-tbody">
-                                <tr><td colspan="6" style="text-align:center;padding:32px;">Loading...</td></tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <!-- Add Pricing Form -->
-                    <div class="admin-form">
-                        <h3 id="pricing-form-title">+ Add New Pricing Plan</h3>
-                        <div id="pricing-alert" class="alert"></div>
-                        <form id="pricing-form" onsubmit="handleSavePricingPlan(event)">
-                            <input type="hidden" id="p-id">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="p-name">Plan Name</label>
-                                    <input type="text" id="p-name" placeholder="e.g. Editing Only" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="p-price">Discounted Price (₹)</label>
-                                    <input type="number" id="p-price" placeholder="2000" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="p-original-price">Original Market Price (₹, optional)</label>
-                                    <input type="number" id="p-original-price" placeholder="3000">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="p-features">Features (comma-separated)</label>
-                                    <input type="text" id="p-features" placeholder="Feature 1, Feature 2, Feature 3" required>
-                                </div>
-                                <div class="form-group" style="display:flex; gap:20px; align-items:center; padding-top:24px;">
-                                    <div class="checkbox-group">
-                                        <input type="checkbox" id="p-popular">
-                                        <label for="p-popular">Popular</label>
-                                    </div>
-                                    <div class="checkbox-group">
-                                        <input type="checkbox" id="p-active" checked>
-                                        <label for="p-active">Active</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div style="display:flex; gap:12px;">
-                                <button type="submit" class="btn btn-primary" id="p-submit-btn">Add Plan</button>
-                                <button type="button" class="btn btn-secondary" id="p-cancel-btn" onclick="cancelPricingEdit()" style="display:none;">Cancel</button>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-
-                <!-- ── Settings Panel ──────────────────────────────────────── -->
-                <div class="admin-panel" id="panel-settings">
-                    <div class="admin-section-title">⚙️ Site Settings</div>
-
-                    <div class="admin-form">
-                        <div id="settings-alert" class="alert"></div>
-                        <form onsubmit="handleSaveSettings(event)">
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="s-name">Site Name</label>
-                                    <input type="text" id="s-name" placeholder="NPJ Productions" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="s-tagline">Tagline</label>
-                                    <input type="text" id="s-tagline" placeholder="We turn raw moments into cinematic masterpieces" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="s-email">Contact Email</label>
-                                    <input type="email" id="s-email" placeholder="contact@npjproductions.dpdns.org" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="s-phone">Contact Phone</label>
-                                    <input type="text" id="s-phone" placeholder="+91 81410 50770" required>
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="s-location">Location</label>
-                                    <input type="text" id="s-location" placeholder="Ahmedabad, Gujarat, India" required>
-                                </div>
-                                <div class="form-group">
-                                    <label for="s-instagram">Instagram Link</label>
-                                    <input type="text" id="s-instagram" placeholder="https://instagram.com/npjproductions">
-                                </div>
-                            </div>
-                            <div class="form-row">
-                                <div class="form-group">
-                                    <label for="s-youtube">YouTube Link</label>
-                                    <input type="text" id="s-youtube" placeholder="https://youtube.com/npjproductions">
-                                </div>
-                                <div class="form-group">
-                                    <label for="s-twitter">Twitter/X Link</label>
-                                    <input type="text" id="s-twitter" placeholder="https://x.com/npjproductions">
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <label for="s-about-text">Footer About Text</label>
-                                <textarea id="s-about-text" rows="2" placeholder="Brief tagline about you..." required></textarea>
-                            </div>
-                            <div class="form-group">
-                                <label for="s-about-bio">Detailed Biography (About Page)</label>
-                                <textarea id="s-about-bio" rows="5" placeholder="Full biography..." required></textarea>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Save Settings</button>
-                        </form>
-                    </div>
-                </div>
-
             </div>
-        </div>
-    </main>
 
-    <!-- ── Footer ─────────────────────────────────────────────────────────── -->
-    <footer class="footer" style="margin-top: 60px;">
-        <div class="container">
-            <div class="footer-bottom">
-                &copy; 2026 NPJ Productions. Admin Panel.
+            <!-- ── PRICING PANEL ───────────────────────────────────────── -->
+            <div class="admin-panel" id="panel-pricing">
+                <div class="panel-header">
+                    <div>
+                        <h1>Pricing Plans</h1>
+                        <p>Manage agency service packages and rates</p>
+                    </div>
+                </div>
+
+                <div class="table-wrap">
+                    <div class="table-head-row">
+                        <span class="table-title">🏷️ Active Plans</span>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Plan</th>
+                                <th>Price</th>
+                                <th>Features</th>
+                                <th>Popular</th>
+                                <th>Active</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-pricing-tbody">
+                            <tr class="loading-row"><td colspan="6"><div class="spinner"></div></td></tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title" id="pricing-form-title">+ Add New Pricing Plan</div>
+                    <div class="panel-alert" id="pricing-alert"></div>
+                    <form id="pricing-form" onsubmit="handleSavePricingPlan(event)">
+                        <input type="hidden" id="p-id">
+                        <div class="form-row triple">
+                            <div class="form-field">
+                                <label for="p-name">Plan Name</label>
+                                <input type="text" id="p-name" placeholder="e.g. Starter Package" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="p-price">Price (₹)</label>
+                                <input type="number" id="p-price" placeholder="5000" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="p-original-price">Original Price (₹)</label>
+                                <input type="number" id="p-original-price" placeholder="8000">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="p-features">Features (comma-separated)</label>
+                            <input type="text" id="p-features" placeholder="Feature 1, Feature 2, Feature 3" required>
+                        </div>
+                        <div class="form-actions" style="margin-top:12px; align-items:center; gap:20px;">
+                            <div class="check-group">
+                                <input type="checkbox" id="p-popular">
+                                <label for="p-popular">Mark as Popular</label>
+                            </div>
+                            <div class="check-group">
+                                <input type="checkbox" id="p-active" checked>
+                                <label for="p-active">Active</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary" id="p-submit-btn">Add Plan</button>
+                            <button type="button" class="btn btn-secondary" id="p-cancel-btn" onclick="cancelPricingEdit()" style="display:none;">Cancel</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-        </div>
-    </footer>
 
-    <!-- ── Scripts ─────────────────────────────────────────────────────────── -->
-    <script src="js/api.js?v=4"></script>
-    <script src="js/admin.js?v=4"></script>
+            <!-- ── SETTINGS PANEL ──────────────────────────────────────── -->
+            <div class="admin-panel" id="panel-settings">
+                <div class="panel-header">
+                    <div>
+                        <h1>Site Settings</h1>
+                        <p>Update agency info, contact details and social links</p>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <div class="form-section-title">⚙️ Agency Information</div>
+                    <div class="panel-alert" id="settings-alert"></div>
+                    <form onsubmit="handleSaveSettings(event)">
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="s-name">Site Name</label>
+                                <input type="text" id="s-name" placeholder="The Sparqlane" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="s-tagline">Tagline</label>
+                                <input type="text" id="s-tagline" placeholder="Where Story Meets Creativity" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="s-email">Contact Email</label>
+                                <input type="email" id="s-email" placeholder="thesparqlane@gmail.com" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="s-phone">Contact Phone</label>
+                                <input type="text" id="s-phone" placeholder="+91 81410 50770" required>
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="s-location">Location</label>
+                                <input type="text" id="s-location" placeholder="Ahmedabad, Gujarat, India" required>
+                            </div>
+                            <div class="form-field">
+                                <label for="s-instagram">Instagram URL</label>
+                                <input type="text" id="s-instagram" placeholder="https://instagram.com/thesparqlane">
+                            </div>
+                        </div>
+                        <div class="form-row">
+                            <div class="form-field">
+                                <label for="s-youtube">YouTube URL</label>
+                                <input type="text" id="s-youtube" placeholder="https://youtube.com/@thesparqlane">
+                            </div>
+                            <div class="form-field">
+                                <label for="s-twitter">Twitter / X URL</label>
+                                <input type="text" id="s-twitter" placeholder="https://x.com/thesparqlane">
+                            </div>
+                        </div>
+                        <div class="form-field">
+                            <label for="s-about-text">Footer About Text</label>
+                            <textarea id="s-about-text" rows="2" placeholder="Brief tagline about the agency..." required></textarea>
+                        </div>
+                        <div class="form-field">
+                            <label for="s-about-bio">Detailed Agency Bio (About Page)</label>
+                            <textarea id="s-about-bio" rows="5" placeholder="Full biography displayed on the About page..." required></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">💾 Save Settings</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- ── Scripts ──────────────────────────────────────────────────────── -->
+    <script src="js/api.js?v=6"></script>
+    <script src="js/admin.js?v=6"></script>
     <script>
-        /* Nav toggle */
-        const navToggle = document.getElementById("nav-toggle");
-        const navLinks = document.getElementById("nav-links");
-        navToggle.addEventListener("click", () => {
-            navToggle.classList.toggle("active");
-            navLinks.classList.toggle("open");
+        /* ── Mobile sidebar toggle ────────────────────────────────────── */
+        const sidebarToggle = document.getElementById('sidebarToggle');
+        const adminSidebar  = document.getElementById('adminSidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        sidebarToggle.addEventListener('click', () => {
+            adminSidebar.classList.toggle('open');
+            sidebarOverlay.classList.toggle('show');
+        });
+        sidebarOverlay.addEventListener('click', () => {
+            adminSidebar.classList.remove('open');
+            sidebarOverlay.classList.remove('show');
         });
 
-        /* Video source type toggle */
+        /* ── Video source type toggle ─────────────────────────────────── */
         function toggleVideoSourceInputs() {
-            const type = document.getElementById("v-source-type").value;
-            const ytGroup = document.getElementById("v-youtube-group");
-            const uploadGroup = document.getElementById("v-upload-group");
-            const ytInput = document.getElementById("v-url");
-            const fileInput = document.getElementById("v-file");
-            const isEdit = !!document.getElementById("v-id").value;
+            const type = document.getElementById('v-source-type').value;
+            const ytGroup     = document.getElementById('v-youtube-group');
+            const uploadGroup = document.getElementById('v-upload-group');
+            const ytInput     = document.getElementById('v-url');
+            const fileInput   = document.getElementById('v-file');
+            const isEdit      = !!document.getElementById('v-id').value;
 
-            if (type === "youtube") {
-                ytGroup.style.display = "block";
-                uploadGroup.style.display = "none";
-                ytInput.required = !isEdit;
+            if (type === 'youtube') {
+                ytGroup.style.display = 'block';
+                uploadGroup.style.display = 'none';
+                ytInput.required  = !isEdit;
                 fileInput.required = false;
             } else {
-                ytGroup.style.display = "none";
-                uploadGroup.style.display = "block";
-                ytInput.required = false;
+                ytGroup.style.display = 'none';
+                uploadGroup.style.display = 'block';
+                ytInput.required  = false;
                 fileInput.required = !isEdit;
             }
         }
-
-        /* Fade-in */
-        const observer = new IntersectionObserver(
-            (entries) => entries.forEach((e) => {
-                if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); }
-            }),
-            { threshold: 0.15 }
-        );
-        document.querySelectorAll(".fade-in").forEach((el) => observer.observe(el));
     </script>
 </body>
 </html>

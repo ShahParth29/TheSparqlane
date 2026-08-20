@@ -158,7 +158,7 @@ def admin_login(data: TokenRequest, request: Request):
     # Log the attempt
     print(f"[SECURITY] Login attempt for user '{data.username}' from IP '{ip}' at {datetime.now(timezone.utc)}")
 
-    if data.username != settings.ADMIN_USERNAME or data.password != settings.ADMIN_PASSWORD:
+    if data.username != settings.SPARQLANE_ADMIN_USERNAME or data.password != settings.SPARQLANE_ADMIN_PASSWORD:
         login_attempts[ip].append(current_time)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,

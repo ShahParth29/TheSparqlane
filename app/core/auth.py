@@ -49,7 +49,7 @@ def get_current_admin(
     """FastAPI dependency — extracts and verifies the Bearer token."""
     payload = verify_token(credentials.credentials)
     username: str = payload.get("sub")
-    if username != settings.ADMIN_USERNAME:
+    if username != settings.SPARQLANE_ADMIN_USERNAME:
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorised",

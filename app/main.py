@@ -71,10 +71,10 @@ def health_check():
         "service": "The Sparqlane API",
         "debug": {
             "env_keys": [k for k in env_keys if "SECRET" not in k and "PASS" not in k and "KEY" not in k],
-            "has_admin_user": settings_cfg.ADMIN_USERNAME is not None,
-            "admin_user": settings_cfg.ADMIN_USERNAME,
-            "has_admin_pass": settings_cfg.ADMIN_PASSWORD is not None,
-            "admin_pass_len": len(settings_cfg.ADMIN_PASSWORD) if settings_cfg.ADMIN_PASSWORD else 0,
+            "has_admin_user": settings_cfg.SPARQLANE_ADMIN_USERNAME is not None,
+            "admin_user": settings_cfg.SPARQLANE_ADMIN_USERNAME,
+            "has_admin_pass": settings_cfg.SPARQLANE_ADMIN_PASSWORD is not None,
+            "admin_pass_len": len(settings_cfg.SPARQLANE_ADMIN_PASSWORD) if settings_cfg.SPARQLANE_ADMIN_PASSWORD else 0,
             "db_url_masked": db_url_masked,
             "storage_backend": settings_cfg.STORAGE_BACKEND,
         }
