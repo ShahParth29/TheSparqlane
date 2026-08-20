@@ -89,7 +89,7 @@ def seed_data():
         # Seed Settings if empty
         if db.query(SiteSettings).count() == 0:
             default_settings = {
-                "site_name": "The SparQlane",
+                "site_name": "The Sparqlane",
                 "tagline": "WHERE STORY MEETS CREATIVITY",
                 "email": "contact@thesparqlane.com",
                 "phone": "+91 81410 50770",
@@ -98,19 +98,19 @@ def seed_data():
                 "instagram": "https://instagram.com/thesparqlane",
                 "twitter": "https://x.com/thesparqlane",
                 "about_text": "Premier digital agency specializing in Influencer Marketing, PR, Media House coverage, Social Media Management, and Cinematic Shoots.",
-                "about_bio": "The SparQlane is where story meets creativity. We are a full-service creative agency, PR powerhouse, and cinematic production house. We elevate brands through strategic influencer management, local media channels, viral social media campaigns, and cinema-grade visual storytelling spanning travel, food, fashion, beauty, lifestyle, fitness, business, history, and exploration.",
+                "about_bio": "The Sparqlane is where story meets creativity. We are a full-service creative agency, PR powerhouse, and cinematic production house. We elevate brands through strategic influencer management, local media channels, viral social media campaigns, and cinema-grade visual storytelling spanning travel, food, fashion, beauty, lifestyle, fitness, business, history, and exploration.",
             }
             for k, v in default_settings.items():
                 db.add(SiteSettings(key=k, value=v))
             db.commit()
-            print("[SEED] Site settings seeded for The SparQlane.")
+            print("[SEED] Site settings seeded for The Sparqlane.")
         else:
             # Migration/Upgrade check for existing databases
             site_name_setting = db.query(SiteSettings).filter(SiteSettings.key == "site_name").first()
             if site_name_setting:
-                site_name_setting.value = "The SparQlane"
+                site_name_setting.value = "The Sparqlane"
                 db.commit()
-                print("[MIGRATION] Site settings upgraded name to The SparQlane.")
+                print("[MIGRATION] Site settings upgraded name to The Sparqlane.")
                 
             tagline_setting = db.query(SiteSettings).filter(SiteSettings.key == "tagline").first()
             if tagline_setting:
@@ -126,7 +126,7 @@ def seed_data():
                 
             about_bio_setting = db.query(SiteSettings).filter(SiteSettings.key == "about_bio").first()
             if about_bio_setting:
-                about_bio_setting.value = "The SparQlane is where story meets creativity. We are a full-service creative agency, PR powerhouse, and cinematic production house. We elevate brands through strategic influencer management, local media channels, viral social media campaigns, and cinema-grade visual storytelling spanning travel, food, fashion, beauty, lifestyle, fitness, business, history, and exploration."
+                about_bio_setting.value = "The Sparqlane is where story meets creativity. We are a full-service creative agency, PR powerhouse, and cinematic production house. We elevate brands through strategic influencer management, local media channels, viral social media campaigns, and cinema-grade visual storytelling spanning travel, food, fashion, beauty, lifestyle, fitness, business, history, and exploration."
                 db.commit()
                 print("[MIGRATION] Site settings upgraded about_bio.")
 
@@ -134,9 +134,9 @@ def seed_data():
             blog_posts = db.query(BlogPost).all()
             for post in blog_posts:
                 updated = False
-                for old_name in ["NPJ Productions", "NextFrame Studios", "Aurevia Films", "Dhruvam Productions"]:
+                for old_name in ["The SparQlane", "NPJ Productions", "NextFrame Studios", "Aurevia Films", "Dhruvam Productions"]:
                     if old_name in post.content:
-                        post.content = post.content.replace(old_name, "The SparQlane")
+                        post.content = post.content.replace(old_name, "The Sparqlane")
                         updated = True
                 if updated:
                     db.add(post)

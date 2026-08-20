@@ -634,7 +634,7 @@ document.addEventListener("DOMContentLoaded", () => {
             <div class="quote-modal-content">
                 <button class="quote-modal-close" onclick="closeQuoteModal()" aria-label="Close modal">&times;</button>
                 <div class="quote-modal-header">
-                    <span class="tagline-sub">The SparQlane • Custom Proposal</span>
+                    <span class="tagline-sub">The Sparqlane • Custom Proposal</span>
                     <h2>Get Your Custom Quote</h2>
                     <p>Select your required services and niches for a tailored strategic estimate.</p>
                 </div>

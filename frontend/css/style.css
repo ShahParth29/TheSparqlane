@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════════════════════════════════════════════
    THE SPARQLANE — Creative Agency, PR & Media House
    WHERE STORY MEETS CREATIVITY
-   Color Palette: Deep Rich Maroon (#30040D / #4D0717) + Soft Warm Beige (#F5EBE0 / #FAF3E0) + Champagne Gold (#D4AF37)
+   Color Palette: Deep Wine Burgundy (#250812 / #360C1A) + Off-White Cream (#F8F3EC) + Warm Sand Gold (#D4AF37 / #E2C39B)
    Fonts: Playfair Display & Plus Jakarta Sans (Google Fonts)
    ═══════════════════════════════════════════════════════════════════════════════ */
 
@@ -9,26 +9,26 @@
 
 /* ── CSS Custom Properties ─────────────────────────────────────────────────── */
 :root {
-    --bg-primary: #30040D;
-    --bg-secondary: #4D0717;
-    --bg-card: rgba(77, 7, 23, 0.75);
-    --bg-card-hover: rgba(105, 12, 33, 0.9);
-    --bg-glass: rgba(48, 4, 13, 0.92);
-    --text-primary: #FAF3E0;
-    --text-secondary: #E8D5C4;
-    --text-muted: #BC9F88;
+    --bg-primary: #250812;
+    --bg-secondary: #360C1A;
+    --bg-card: rgba(54, 12, 26, 0.78);
+    --bg-card-hover: rgba(75, 17, 36, 0.9);
+    --bg-glass: rgba(37, 8, 18, 0.92);
+    --text-primary: #F8F3EC;
+    --text-secondary: #E5D7C8;
+    --text-muted: #B8A898;
     --accent: #800020;
     --accent-hover: #9E0A2D;
     --accent-glow: rgba(128, 0, 32, 0.4);
     --accent-subtle: rgba(128, 0, 32, 0.15);
-    --beige: #F5EBE0;
-    --beige-light: #FAF3E0;
-    --beige-muted: #D9C3B0;
+    --beige: #F8F3EC;
+    --beige-light: #FFFDF9;
+    --beige-muted: #E5D7C8;
     --gold: #D4AF37;
-    --gold-bright: #F2D679;
+    --gold-bright: #E2C39B;
     --gold-glow: rgba(212, 175, 55, 0.35);
     --gold-subtle: rgba(212, 175, 55, 0.12);
-    --border: rgba(245, 235, 224, 0.22);
+    --border: rgba(226, 195, 155, 0.22);
     --border-light: rgba(212, 175, 55, 0.45);
     --success: #10b981;
     --error: #ef4444;
@@ -46,8 +46,8 @@
     --nav-height: 88px;
 
     /* Secondary highlights */
-    --secondary-accent: #F5EBE0;
-    --secondary-accent-glow: rgba(245, 235, 224, 0.25);
+    --secondary-accent: #E2C39B;
+    --secondary-accent-glow: rgba(226, 195, 155, 0.25);
 }
 
 /* ── Reset & Base ──────────────────────────────────────────────────────────── */
