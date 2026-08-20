@@ -624,22 +624,63 @@
         }
 
         @media (max-width: 700px) {
-            .admin-sidebar { transform: translateX(-100%); }
-            .admin-sidebar.open { transform: translateX(0); }
-            .admin-main { margin-left: 0; max-width: 100vw; padding: 70px 16px 20px; }
-            .sidebar-toggle { display: block; }
+            .admin-sidebar { transform: translateX(-100%); z-index: 150; }
+            .admin-sidebar.open { transform: translateX(0); box-shadow: 4px 0 40px rgba(0,0,0,0.7); }
+            .admin-main {
+                margin-left: 0;
+                width: 100%;
+                max-width: 100vw;
+                padding: 70px 12px 24px;
+                overflow-x: hidden;
+            }
+            .sidebar-toggle { display: flex; align-items: center; justify-content: center; }
             .sidebar-overlay.show { display: block; }
-            .form-row { grid-template-columns: 1fr; }
-            .form-row.triple { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .enquiry-cards-grid { grid-template-columns: 1fr; }
-            .panel-header { flex-direction: column; align-items: flex-start; }
+
+            /* Forms */
+            .form-row { grid-template-columns: 1fr !important; }
+            .form-row.triple { grid-template-columns: 1fr !important; }
+            .form-section { padding: 20px 16px; }
+
+            /* Tables: make scrollable */
+            .table-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: var(--radius-md); }
+            table { min-width: 520px; font-size: 0.78rem; }
+            th, td { padding: 10px 10px; }
+
+            /* Stats */
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .stat-card { padding: 18px 14px; }
+            .stat-value { font-size: 1.6rem; }
+
+            /* Enquiry cards */
+            .enquiry-cards-grid { grid-template-columns: 1fr !important; }
+            .eq-card { padding: 18px; }
+            .eq-header { flex-direction: column; gap: 8px; align-items: flex-start; }
+
+            /* Panel */
+            .panel-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+            .panel-header h1 { font-size: 1.4rem; }
+            .admin-panel { padding: 0; }
+
+            /* Login */
+            #admin-login-screen { padding: 16px; }
+            .login-card { padding: 32px 20px; max-width: 100%; }
+            .login-title { font-size: 1.45rem; }
+
+            /* Sidebar inner */
+            .sidebar-header { padding: 20px 16px; }
+            .sidebar-nav { padding: 12px 8px; }
         }
 
         @media (max-width: 420px) {
             .stats-grid { grid-template-columns: 1fr; }
-            .login-card { padding: 32px 22px; }
+            .login-card { padding: 28px 16px; }
+            .admin-main { padding: 64px 10px 20px; }
+            .form-actions { flex-direction: column; }
+            .form-actions .btn { width: 100%; justify-content: center; }
+            table { font-size: 0.72rem; }
+            th, td { padding: 8px 8px; }
         }
+
     </style>
 </head>
 <body>
