@@ -73,9 +73,16 @@ def submit_enquiry(data: EnquiryCreate, request: Request, db: Session = Depends(
         event_date=clean_event_date,
         message=clean_message,
     )
-    db.add(enquiry)
-    db.commit()
-    db.refresh(enquiry)
+    try:
+        db.add(enquiry)
+        db.commit()
+        db.refresh(enquiry)
+    except Exception as dberr:
+        db.rollback()
+        print(f"[DATABASE NOTICE] Retrying commit after stale connection reset: {dberr}")
+        db.add(enquiry)
+        db.commit()
+        db.refresh(enquiry)
 
     # Send email notification (non-blocking, won't crash on failure)
     try:
@@ -94,6 +101,35 @@ def submit_enquiry(data: EnquiryCreate, request: Request, db: Session = Depends(
         )
     except Exception as exc:
         print(f"[CONTACT] Email notification failed: {exc}")
+
+    # Direct Web3Forms notification to thesparqlane@gmail.com
+    try:
+        import urllib.request
+        import json
+        settings = get_settings()
+        web3_key = settings.WEB3FORMS_KEY or "599dfed0-1282-4fdf-b98a-web3formskey"
+        web3_payload = {
+            "access_key": web3_key,
+            "subject": f"✨ New Custom Quote Request from {clean_name} ({clean_project_type})",
+            "from_name": "The SparQlane Portal",
+            "to_email": "thesparqlane@gmail.com",
+            "name": clean_name,
+            "email": clean_email,
+            "phone": clean_phone,
+            "project_type": clean_project_type,
+            "budget_range": clean_budget_range,
+            "category": clean_event_date,
+            "message": clean_message
+        }
+        req = urllib.request.Request(
+            "https://api.web3forms.com/submit",
+            data=json.dumps(web3_payload).encode("utf-8"),
+            headers={"Content-Type": "application/json", "Accept": "application/json"}
+        )
+        urllib.request.urlopen(req, timeout=5)
+        print(f"[WEB3FORMS] Quote notification dispatched to thesparqlane@gmail.com for {clean_name}.")
+    except Exception as w3err:
+        print(f"[WEB3FORMS] Web3Forms dispatch notification info: {w3err}")
 
     return {"message": "Your custom quote request has been received! Our team will get back to you within 24 hours."}
 

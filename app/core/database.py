@@ -30,9 +30,12 @@ Base = declarative_base()
 
 
 def get_db():
-    """FastAPI dependency that yields a DB session."""
+    """FastAPI dependency that yields a DB session with rollback safety."""
     db = SessionLocal()
     try:
         yield db
+    except Exception:
+        db.rollback()
+        raise
     finally:
         db.close()

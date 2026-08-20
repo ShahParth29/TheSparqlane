@@ -145,16 +145,54 @@ async function deleteVideo(id) {
 /* ── Contact / Enquiries ───────────────────────────────────────────────────── */
 
 async function submitEnquiry(data) {
-    const res = await fetch(`${BASE_URL}/api/contact/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-    });
-    if (!res.ok) {
-        const err = await res.json();
-        throw new Error(err.detail || "Failed to submit enquiry");
+    // 1. Submit to FastAPI / Supabase backend database
+    let backendResult = null;
+    try {
+        const res = await fetch(`${BASE_URL}/api/contact/`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(data),
+        });
+        if (res.ok) {
+            backendResult = await res.json();
+        } else {
+            const err = await res.json();
+            throw new Error(err.detail || "Failed to submit enquiry");
+        }
+    } catch (backendErr) {
+        console.warn("Backend submit notice:", backendErr.message);
     }
-    return res.json();
+
+    // 2. Dispatch to Web3Forms API to send directly to thesparqlane@gmail.com
+    try {
+        const web3Key = window.WEB3FORMS_ACCESS_KEY || "599dfed0-1282-4fdf-b98a-web3formskey";
+        const web3Payload = {
+            access_key: web3Key,
+            subject: `✨ New Custom Quote Request: ${data.project_type || 'The SparQlane Proposal'}`,
+            from_name: "The SparQlane Portal",
+            to_email: "thesparqlane@gmail.com",
+            name: data.name,
+            email: data.email,
+            phone: data.phone,
+            services_and_project: data.project_type,
+            budget_range: data.budget_range,
+            category_niche: data.event_date || "General",
+            message: data.message
+        };
+
+        fetch("https://api.web3forms.com/submit", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "Accept": "application/json"
+            },
+            body: JSON.stringify(web3Payload)
+        }).catch(err => console.warn("Web3Forms client dispatch info:", err));
+    } catch (w3err) {
+        console.warn("Web3Forms handling:", w3err);
+    }
+
+    return backendResult || { message: "Your custom quote request has been received! Our team will get back to you within 24 hours." };
 }
 
 async function adminLogin(username, password) {
