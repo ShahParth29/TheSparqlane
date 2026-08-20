@@ -165,9 +165,9 @@ async function submitEnquiry(data) {
 
     // 2. Dispatch to Web3Forms API to send directly to thesparqlane@gmail.com
     try {
-        const web3Key = window.WEB3FORMS_ACCESS_KEY || "599dfed0-1282-4fdf-b98a-web3formskey";
+        const web3Key = window.WEB3FORMS_ACCESS_KEY || "f4d7d2c8-96d7-483b-8f12-9949a4fee7cd";
         const web3Payload = {
-            access_key: web3Key,
+            access_key: "f4d7d2c8-96d7-483b-8f12-9949a4fee7cd",
             subject: `✨ New Custom Quote Request: ${data.project_type || 'The Sparqlane Proposal'}`,
             from_name: "The Sparqlane Portal",
             to_email: "thesparqlane@gmail.com",
@@ -678,7 +678,7 @@ document.addEventListener("DOMContentLoaded", () => {
                 </div>
                 <form id="quote-modal-form" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleQuoteSubmit(event)">
                     <!-- Web3Forms Integration -->
-                    <input type="hidden" name="access_key" value="599dfed0-1282-4fdf-b98a-web3formskey">
+                    <input type="hidden" name="access_key" value="f4d7d2c8-96d7-483b-8f12-9949a4fee7cd">
                     <input type="hidden" name="subject" value="✨ New Custom Quote Request — The Sparqlane">
                     <input type="hidden" name="from_name" value="The Sparqlane Web Portal">
                     <input type="hidden" name="to_email" value="thesparqlane@gmail.com">

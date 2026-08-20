@@ -87,7 +87,13 @@
                 <!-- Direct Quote Form -->
                 <div class="glass-card" style="background:var(--bg-secondary); border:1px solid var(--border-light); padding:36px; border-radius:var(--radius-xl);">
                     <h3 style="font-size:1.4rem; color:var(--text-primary); margin-bottom:18px;">Send a Direct Message</h3>
-                    <form id="contact-page-form" onsubmit="handleContactSubmit(event)">
+                    <form id="contact-page-form" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleContactSubmit(event)">
+                        <!-- Web3Forms Direct Email Integration to thesparqlane@gmail.com -->
+                        <input type="hidden" name="access_key" value="f4d7d2c8-96d7-483b-8f12-9949a4fee7cd">
+                        <input type="hidden" name="subject" value="✨ New Direct Message — The Sparqlane">
+                        <input type="hidden" name="from_name" value="The Sparqlane Website">
+                        <input type="hidden" name="to_email" value="thesparqlane@gmail.com">
+
                         <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
                         
                         <div class="form-group" style="margin-bottom:16px;">
