@@ -647,8 +647,11 @@ function escapeHTML(str) {
 
 /* ── Interactive Custom Quote Modal System ─────────────────────────────────── */
 document.addEventListener("DOMContentLoaded", () => {
+    // Skip entirely on the admin portal
+    if (document.getElementById("admin-login-screen") || document.getElementById("admin-dashboard")) return;
+
     // 1. Inject Floating CTA if not present
-    if (!document.getElementById("floating-quote-btn") && !document.querySelector(".admin-page")) {
+    if (!document.getElementById("floating-quote-btn")) {
         const floatBtn = document.createElement("button");
         floatBtn.id = "floating-quote-btn";
         floatBtn.className = "floating-quote-btn";
