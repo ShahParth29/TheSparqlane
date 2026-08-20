@@ -168,8 +168,8 @@ async function submitEnquiry(data) {
         const web3Key = window.WEB3FORMS_ACCESS_KEY || "599dfed0-1282-4fdf-b98a-web3formskey";
         const web3Payload = {
             access_key: web3Key,
-            subject: `✨ New Custom Quote Request: ${data.project_type || 'The SparQlane Proposal'}`,
-            from_name: "The SparQlane Portal",
+            subject: `✨ New Custom Quote Request: ${data.project_type || 'The Sparqlane Proposal'}`,
+            from_name: "The Sparqlane Portal",
             to_email: "thesparqlane@gmail.com",
             name: data.name,
             email: data.email,
