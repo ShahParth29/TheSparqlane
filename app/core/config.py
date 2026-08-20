@@ -9,7 +9,7 @@ class Settings(BaseSettings):
     ACCESS_TOKEN_EXPIRE_MINUTES: int = 60
 
     ADMIN_USERNAME: str = "PNG"
-    ADMIN_PASSWORD: str = "PNG@LANE"
+    ADMIN_PASSWORD: str = "PNG@SPARQLANE"
 
     SMTP_HOST: str = "smtp.gmail.com"
     SMTP_PORT: int = 587
