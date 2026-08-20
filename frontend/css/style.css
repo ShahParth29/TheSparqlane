@@ -2239,30 +2239,61 @@ textarea:focus-visible {
    ═══════════════════════════════════════════════════════════════════════════════ */
 
 /* Brand Logo Styling */
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+}
+.nav-logo-img {
+    height: 44px;
+    width: auto;
+    border-radius: 6px;
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
+}
+.nav-logo:hover .nav-logo-img {
+    transform: scale(1.05);
+}
 .nav-logo-text {
     display: flex;
     flex-direction: column;
 }
 .brand-name-title {
     font-family: 'Playfair Display', serif;
-    font-size: 1.35rem;
+    font-size: 1.4rem;
     font-weight: 700;
     color: var(--text-primary);
     line-height: 1.1;
     letter-spacing: 0.02em;
 }
-.brand-name-title span {
-    color: var(--gold);
+.brand-the {
+    font-family: 'Playfair Display', serif;
     font-style: italic;
+    color: var(--gold);
+    font-size: 1.15rem;
+    font-weight: 400;
+    margin-right: 3px;
+}
+.brand-q {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    color: var(--gold-bright);
+    font-weight: 800;
+    font-size: 1.55rem;
+    line-height: 0.9;
+    display: inline-block;
+    padding: 0 1px;
 }
 .brand-tagline-micro {
     font-family: 'Plus Jakarta Sans', sans-serif;
-    font-size: 0.58rem;
+    font-size: 0.56rem;
     font-weight: 600;
-    letter-spacing: 0.2em;
+    letter-spacing: 0.22em;
     color: var(--gold-bright);
     text-transform: uppercase;
-    opacity: 0.9;
+    margin-top: 3px;
+    opacity: 0.92;
 }
 
 /* Niche Ticker Marquee */

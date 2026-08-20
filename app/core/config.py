@@ -40,6 +40,11 @@ class Settings(BaseSettings):
     CORS_ORIGINS: str = "*"  # Comma-separated origins for production
     LOGIN_RATE_LIMIT: int = 5  # Max login attempts per minute per IP
 
+    # Supabase Backend Configuration
+    SUPABASE_URL: str = ""
+    SUPABASE_KEY: str = ""
+    SUPABASE_SERVICE_KEY: str = ""
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
