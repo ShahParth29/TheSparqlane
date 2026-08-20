@@ -676,7 +676,13 @@ document.addEventListener("DOMContentLoaded", () => {
                     <h2>Get Your Custom Quote</h2>
                     <p>Select your required services and niches for a tailored strategic estimate.</p>
                 </div>
-                <form id="quote-modal-form" onsubmit="handleQuoteSubmit(event)">
+                <form id="quote-modal-form" action="https://api.web3forms.com/submit" method="POST" onsubmit="handleQuoteSubmit(event)">
+                    <!-- Web3Forms Integration -->
+                    <input type="hidden" name="access_key" value="599dfed0-1282-4fdf-b98a-web3formskey">
+                    <input type="hidden" name="subject" value="✨ New Custom Quote Request — The Sparqlane">
+                    <input type="hidden" name="from_name" value="The Sparqlane Web Portal">
+                    <input type="hidden" name="to_email" value="thesparqlane@gmail.com">
+
                     <!-- Honeypot anti-spam field -->
                     <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
                     
