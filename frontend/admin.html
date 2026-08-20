@@ -716,11 +716,6 @@
                     <span class="icon">📝</span> Blog Posts
                 </button>
 
-                <div class="sidebar-section-label">Business</div>
-                <button class="sidebar-btn" data-tab="pricing" onclick="switchAdminTab('pricing')">
-                    <span class="icon">🏷️</span> Pricing Plans
-                </button>
-
                 <div class="sidebar-section-label">Config</div>
                 <button class="sidebar-btn" data-tab="settings" onclick="switchAdminTab('settings')">
                     <span class="icon">⚙️</span> Site Settings
@@ -933,74 +928,6 @@
                 </div>
             </div>
 
-            <!-- ── PRICING PANEL ───────────────────────────────────────── -->
-            <div class="admin-panel" id="panel-pricing">
-                <div class="panel-header">
-                    <div>
-                        <h1>Pricing Plans</h1>
-                        <p>Manage agency service packages and rates</p>
-                    </div>
-                </div>
-
-                <div class="table-wrap">
-                    <div class="table-head-row">
-                        <span class="table-title">🏷️ Active Plans</span>
-                    </div>
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Plan</th>
-                                <th>Price</th>
-                                <th>Features</th>
-                                <th>Popular</th>
-                                <th>Active</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="admin-pricing-tbody">
-                            <tr class="loading-row"><td colspan="6"><div class="spinner"></div></td></tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="form-section">
-                    <div class="form-section-title" id="pricing-form-title">+ Add New Pricing Plan</div>
-                    <div class="panel-alert" id="pricing-alert"></div>
-                    <form id="pricing-form" onsubmit="handleSavePricingPlan(event)">
-                        <input type="hidden" id="p-id">
-                        <div class="form-row triple">
-                            <div class="form-field">
-                                <label for="p-name">Plan Name</label>
-                                <input type="text" id="p-name" placeholder="e.g. Starter Package" required>
-                            </div>
-                            <div class="form-field">
-                                <label for="p-price">Price (₹)</label>
-                                <input type="number" id="p-price" placeholder="5000" required>
-                            </div>
-                            <div class="form-field">
-                                <label for="p-original-price">Original Price (₹)</label>
-                                <input type="number" id="p-original-price" placeholder="8000">
-                            </div>
-                        </div>
-                        <div class="form-field">
-                            <label for="p-features">Features (comma-separated)</label>
-                            <input type="text" id="p-features" placeholder="Feature 1, Feature 2, Feature 3" required>
-                        </div>
-                        <div class="form-actions" style="margin-top:12px; align-items:center; gap:20px;">
-                            <div class="check-group">
-                                <input type="checkbox" id="p-popular">
-                                <label for="p-popular">Mark as Popular</label>
-                            </div>
-                            <div class="check-group">
-                                <input type="checkbox" id="p-active" checked>
-                                <label for="p-active">Active</label>
-                            </div>
-                            <button type="submit" class="btn btn-primary" id="p-submit-btn">Add Plan</button>
-                            <button type="button" class="btn btn-secondary" id="p-cancel-btn" onclick="cancelPricingEdit()" style="display:none;">Cancel</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
 
             <!-- ── SETTINGS PANEL ──────────────────────────────────────── -->
             <div class="admin-panel" id="panel-settings">
