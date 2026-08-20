@@ -4,77 +4,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About — NPJ Productions</title>
+    <title>About Us — The SparQlane | Where Story Meets Creativity</title>
     <meta name="description"
-        content="Learn about NPJ Productions, a professional video production house specializing in cinematic storytelling, wedding highlights, corporate films, and content creation.">
+        content="Learn about The SparQlane — a premier creative agency, PR powerhouse, and media house specializing in Influencer Marketing, Social Media Management, Local Media Updates, and Cinematic Shoots.">
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Favicon & App Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="img/favicon-512x512.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://npjproductions.dpdns.org/about.html">
-    <meta property="og:title" content="About — NPJ Productions">
-    <meta property="og:description" content="Learn about NPJ Productions, a professional video production house specializing in cinematic storytelling, wedding highlights, corporate films, and content creation.">
-    <meta property="og:image" content="https://npjproductions.dpdns.org/img/favicon-512x512.png">
-
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://npjproductions.dpdns.org/about.html">
-    <meta property="twitter:title" content="About — NPJ Productions">
-    <meta property="twitter:description" content="Learn about NPJ Productions, a professional video production house specializing in cinematic storytelling, wedding highlights, corporate films, and content creation.">
-    <meta property="twitter:image" content="https://npjproductions.dpdns.org/img/favicon-512x512.png">
-
-    <!-- Schema.org JSON-LD structured data for NPJ Productions -->
-    <script type="application/ld+json">
-    {
-      "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "NPJ Productions",
-      "image": "https://npjproductions.dpdns.org/img/favicon-512x512.png",
-      "@id": "https://npjproductions.dpdns.org/#organization",
-      "url": "https://npjproductions.dpdns.org/",
-      "telephone": "+918141050770",
-      "priceRange": "$$",
-      "address": {
-        "@type": "PostalAddress",
-        "streetAddress": "Ahmedabad",
-        "addressLocality": "Ahmedabad",
-        "addressRegion": "Gujarat",
-        "postalCode": "380001",
-        "addressCountry": "IN"
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 23.0225,
-        "longitude": 72.5714
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ],
-        "opens": "09:00",
-        "closes": "21:00"
-      },
-      "sameAs": [
-        "https://instagram.com/npjproductions",
-        "https://youtube.com/npjproductions",
-        "https://x.com/npjproductions"
-      ]
-    }
-    </script>
+    <meta property="og:url" content="https://thesparqlane.com/about.html">
+    <meta property="og:title" content="About Us — The SparQlane">
+    <meta property="og:description" content="Where Story Meets Creativity. Premier creative agency, PR powerhouse, and media house.">
 </head>
 
 <body>
@@ -86,8 +30,10 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <a href="index.html" class="nav-logo">
-                <img src="img/logo.webp" alt="NPJ Productions Logo" class="nav-logo-img">
-                <span class="setting-site_name">NPJ Productions</span>
+                <div class="nav-logo-text">
+                    <span class="brand-name-title">the <span>SparQlane</span></span>
+                    <span class="brand-tagline-micro">WHERE STORY MEETS CREATIVITY</span>
+                </div>
             </a>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -96,166 +42,158 @@
                 <li><a href="index.html">Home</a></li>
                 <li><a href="works.html">Works</a></li>
                 <li><a href="about.html" class="active">About</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html" class="nav-cta">Hire Us</a></li>
+                <li><a href="pricing.html">Get Custom Quote</a></li>
+                <li><a href="blog.html">Blog & Media</a></li>
+                <li><a href="#" onclick="openQuoteModal(); return false;" class="nav-cta btn-glow-pulse">Get Custom Quote</a></li>
             </ul>
         </div>
     </nav>
 
-    <!-- ── About Page ─────────────────────────────────────────────────────── -->
+    <!-- ── About Hero ─────────────────────────────────────────────────────── -->
     <main class="about-page">
         <div class="container">
 
-            <!-- Hero Section -->
-            <div class="about-hero section animate-entrance stagger-1" style="padding-top:40px;">
-                <div class="about-hero-avatar-card fade-in-left">
-                    🎬
+            <div class="about-hero section animate-entrance stagger-1" style="padding-top:40px; display:grid; grid-template-columns: 1fr 1.5fr; gap:40px; align-items:center;">
+                <div class="about-hero-avatar-card fade-in-left" style="background: linear-gradient(135deg, rgba(65,16,32,0.9), rgba(24,5,12,0.95)); border: 1px solid var(--border-light); padding: 50px; border-radius: var(--radius-xl); text-align: center;">
+                    <div style="font-size: 3.5rem; margin-bottom: 12px;">✨</div>
+                    <span class="tagline-sub" style="font-size: 0.75rem;">THE SPARQLANE</span>
+                    <h3 style="color:var(--gold-bright); font-size: 1.4rem; margin-top: 6px;">Where Story Meets Creativity</h3>
                 </div>
                 <div class="about-text fade-in-right">
-                    <h1>Welcome to <span class="gradient-text setting-site_name">NPJ Productions</span></h1>
-                    <div class="setting-about_bio" style="margin-bottom: 24px;">
-                        NPJ Productions is a premier video production house with a passion for cinematic visual storytelling. We specialize in directing, shooting, and editing cinema-grade videos, including wedding films, commercial ads, corporate documentaries, and creative reels. Our work blends modern pacing, premium color grading, and custom sound design to craft memories that last forever.
-                    </div>
-                    <div class="hero-buttons animate-entrance stagger-5"
-                        style="display:flex; gap:12px; flex-wrap:wrap;">
-                        <a href="contact.html" class="btn btn-primary btn-glow-pulse">Let's Talk →</a>
-                        <a href="https://instagram.com/npjproductions" target="_blank" rel="noopener noreferrer"
-                            class="btn btn-secondary">Instagram</a>
+                    <span class="tagline-sub">OUR AGENCY VISION</span>
+                    <h1 style="font-size: clamp(2rem, 4vw, 3.2rem); margin: 10px 0 20px;">
+                        Redefining Digital Influence & <span class="gradient-text" style="color:var(--gold);">Media Storytelling</span>
+                    </h1>
+                    <p style="color:var(--text-secondary); font-size:1.05rem; line-height:1.7; margin-bottom: 24px;">
+                        At <strong>The SparQlane</strong>, we believe every brand has a compelling narrative waiting to captivate the world. We combine strategic influencer marketing, regional PR distribution, local media news updates, and cinematic visual artistry across diverse niches including travel, food, fashion, beauty, lifestyle, fitness, business, history, and exploration.
+                    </p>
+                    <div class="hero-buttons" style="display:flex; gap:14px; flex-wrap:wrap;">
+                        <button onclick="openQuoteModal()" class="btn btn-primary btn-glow-pulse" style="background: linear-gradient(135deg, var(--gold), #b89228); color:#120308; font-weight:700; border-radius:40px; padding:12px 28px;">
+                            Request Custom Quote →
+                        </button>
+                        <a href="https://instagram.com/thesparqlane" target="_blank" rel="noopener noreferrer" class="btn btn-secondary" style="border-radius:40px; border-color:var(--border);">
+                            Follow Instagram
+                        </a>
                     </div>
                 </div>
             </div>
 
             <!-- Workflow Section -->
-            <section class="section" style="padding-top: 20px;">
-                <h2 class="section-title fade-in">Studio <span class="accent-text">Workflow</span></h2>
-                <p class="section-subtitle fade-in">How we transform creative concepts into engaging cinematic films</p>
-                <div class="workflow-grid">
-                    <div class="workflow-card glass-card fade-in">
-                        <div class="workflow-step-num">01</div>
-                        <h3>Pre-Production</h3>
-                        <p>Drafting storyboards, planning set designs, scheduling cinema gear, and finalizing scripts.</p>
+            <section class="section" style="padding-top: 40px;">
+                <div style="text-align:center; max-width:650px; margin:0 auto 40px;">
+                    <span class="tagline-sub">HOW WE WORK</span>
+                    <h2 class="section-title fade-in">Strategic <span class="accent-text" style="color:var(--gold);">Agency Workflow</span></h2>
+                    <p class="section-subtitle fade-in">From campaign concept to viral media deployment</p>
+                </div>
+                <div class="workflow-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 24px;">
+                    <div class="workflow-card glass-card fade-in" style="background:var(--bg-card); border:1px solid var(--border); padding:30px; border-radius:var(--radius-lg);">
+                        <div class="workflow-step-num" style="color:var(--gold); font-size:1.8rem; font-weight:700; margin-bottom:10px;">01</div>
+                        <h3 style="color:var(--text-primary); margin-bottom:8px;">Strategy & Niche Discovery</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem;">Analyzing target audience demographics, defining campaign KPIs, and mapping creator & media niches.</p>
                     </div>
-                    <div class="workflow-card glass-card fade-in">
-                        <div class="workflow-step-num">02</div>
-                        <h3>Principal Photography</h3>
-                        <p>Capturing raw cinema footage in 4K/6K using professional camera packages, lighting, and audio.</p>
+                    <div class="workflow-card glass-card fade-in" style="background:var(--bg-card); border:1px solid var(--border); padding:30px; border-radius:var(--radius-lg);">
+                        <div class="workflow-step-num" style="color:var(--gold); font-size:1.8rem; font-weight:700; margin-bottom:10px;">02</div>
+                        <h3 style="color:var(--text-primary); margin-bottom:8px;">Influencer & PR Alignment</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem;">Curating hand-picked influencers, negotiating partnerships, and drafting strategic press releases.</p>
                     </div>
-                    <div class="workflow-card glass-card fade-in">
-                        <div class="workflow-step-num">03</div>
-                        <h3>Assembly & Pacing</h3>
-                        <p>Structuring the story flow, pacing cuts dynamically, and editing custom sound design tracks.</p>
+                    <div class="workflow-card glass-card fade-in" style="background:var(--bg-card); border:1px solid var(--border); padding:30px; border-radius:var(--radius-lg);">
+                        <div class="workflow-step-num" style="color:var(--gold); font-size:1.8rem; font-weight:700; margin-bottom:10px;">03</div>
+                        <h3 style="color:var(--text-primary); margin-bottom:8px;">Cinematic Production</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem;">Executing high-concept shoots — including Car Delivery shoots, Short Films, and social media reels.</p>
                     </div>
-                    <div class="workflow-card glass-card fade-in">
-                        <div class="workflow-step-num">04</div>
-                        <h3>Color & Mastering</h3>
-                        <p>Applying white-balance matching, cinema-grade color grading, and polishing final audio levels.</p>
+                    <div class="workflow-card glass-card fade-in" style="background:var(--bg-card); border:1px solid var(--border); padding:30px; border-radius:var(--radius-lg);">
+                        <div class="workflow-step-num" style="color:var(--gold); font-size:1.8rem; font-weight:700; margin-bottom:10px;">04</div>
+                        <h3 style="color:var(--text-primary); margin-bottom:8px;">Multi-Channel Amplification</h3>
+                        <p style="color:var(--text-secondary); font-size:0.9rem;">Deploying content through local news networks, digital media outlets, and algorithm-optimized channels.</p>
                     </div>
                 </div>
             </section>
 
-            <!-- Production Capabilities Section -->
+            <!-- Agency Capabilities Section -->
             <section class="section" style="padding-top: 20px;">
-                <h2 class="section-title fade-in">Studio <span class="accent-text">Capabilities</span></h2>
-                <p class="section-subtitle fade-in">Professional proficiency in full-scale cinema production and post-processing workflows</p>
-                <div class="mastery-container">
-                    <div class="mastery-item fade-in">
-                        <div class="mastery-info">
-                            <span>Cinematography & Lighting (On-Set Production)</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="mastery-bar-track">
-                            <div class="mastery-bar-fill" data-target-value="95"></div>
-                        </div>
-                    </div>
-                    <div class="mastery-item fade-in">
-                        <div class="mastery-info">
-                            <span>Post-Production & Video Editing</span>
-                            <span>90%</span>
-                        </div>
-                        <div class="mastery-bar-track">
-                            <div class="mastery-bar-fill" data-target-value="90"></div>
-                        </div>
-                    </div>
-                    <div class="mastery-item fade-in">
-                        <div class="mastery-info">
-                            <span>Cinema-Grade Color Grading (DaVinci Resolve)</span>
-                            <span>95%</span>
-                        </div>
-                        <div class="mastery-bar-track">
-                            <div class="mastery-bar-fill" data-target-value="95"></div>
-                        </div>
-                    </div>
-                    <div class="mastery-item fade-in">
-                        <div class="mastery-info">
-                            <span>Sound Design & Custom Audio SFX</span>
-                            <span>85%</span>
-                        </div>
-                        <div class="mastery-bar-track">
-                            <div class="mastery-bar-fill" data-target-value="85"></div>
-                        </div>
-                    </div>
+                <div style="text-align:center; max-width:650px; margin:0 auto 40px;">
+                    <span class="tagline-sub">CORE DOMAINS</span>
+                    <h2 class="section-title fade-in">Agency <span class="accent-text" style="color:var(--gold);">Capabilities</span></h2>
                 </div>
-            </section>
-
-            <!-- Milestones Section -->
-            <section class="section" style="padding-top: 20px;">
-                <h2 class="section-title fade-in">Our <span class="accent-text">Journey</span></h2>
-                <p class="section-subtitle fade-in">Key milestones that shaped our studio's evolution</p>
-                <div class="timeline">
-                    <div class="timeline-item fade-in">
-                        <div class="timeline-year">2023</div>
-                        <div class="timeline-content glass-card">
-                            <h3>Started Studio Operations</h3>
-                            <p>Launched NPJ Productions with a professional post-production suite and local commercial videography setups.</p>
+                <div class="mastery-container" style="max-width:800px; margin:0 auto;">
+                    <div class="mastery-item fade-in" style="margin-bottom:20px;">
+                        <div class="mastery-info" style="display:flex; justify-space-between; margin-bottom:6px; color:var(--text-primary); font-weight:600;">
+                            <span>Influencer Marketing & Creator Networks</span>
+                            <span style="color:var(--gold);">96%</span>
+                        </div>
+                        <div class="mastery-bar-track" style="background:rgba(255,255,255,0.08); height:10px; border-radius:5px; overflow:hidden;">
+                            <div class="mastery-bar-fill" data-target-value="96" style="background:linear-gradient(90deg, var(--gold), var(--accent)); height:100%; width:0%; transition: width 1.2s ease;"></div>
                         </div>
                     </div>
-                    <div class="timeline-item fade-in">
-                        <div class="timeline-year">2024</div>
-                        <div class="timeline-content glass-card">
-                            <h3>Cinematic Expansion</h3>
-                            <p>Upgraded to RED and Sony FX cinema packages, expanding into high-end wedding documentaries and brand ads across India.</p>
+                    <div class="mastery-item fade-in" style="margin-bottom:20px;">
+                        <div class="mastery-info" style="display:flex; justify-space-between; margin-bottom:6px; color:var(--text-primary); font-weight:600;">
+                            <span>PR, Media House & Local Updates Network</span>
+                            <span style="color:var(--gold);">92%</span>
+                        </div>
+                        <div class="mastery-bar-track" style="background:rgba(255,255,255,0.08); height:10px; border-radius:5px; overflow:hidden;">
+                            <div class="mastery-bar-fill" data-target-value="92" style="background:linear-gradient(90deg, var(--gold), var(--accent)); height:100%; width:0%; transition: width 1.2s ease;"></div>
                         </div>
                     </div>
-                    <div class="timeline-item fade-in">
-                        <div class="timeline-year">2025</div>
-                        <div class="timeline-content glass-card">
-                            <h3>Full-Service Production House</h3>
-                            <p>Acquired cinema drone gear and a dedicated DaVinci grading suite, handling full-scale productions globally for premium brands.</p>
+                    <div class="mastery-item fade-in" style="margin-bottom:20px;">
+                        <div class="mastery-info" style="display:flex; justify-space-between; margin-bottom:6px; color:var(--text-primary); font-weight:600;">
+                            <span>Cinematography & Short Film Direction</span>
+                            <span style="color:var(--gold);">95%</span>
+                        </div>
+                        <div class="mastery-bar-track" style="background:rgba(255,255,255,0.08); height:10px; border-radius:5px; overflow:hidden;">
+                            <div class="mastery-bar-fill" data-target-value="95" style="background:linear-gradient(90deg, var(--gold), var(--accent)); height:100%; width:0%; transition: width 1.2s ease;"></div>
+                        </div>
+                    </div>
+                    <div class="mastery-item fade-in" style="margin-bottom:20px;">
+                        <div class="mastery-info" style="display:flex; justify-space-between; margin-bottom:6px; color:var(--text-primary); font-weight:600;">
+                            <span>Social Media Account Growth & Strategy</span>
+                            <span style="color:var(--gold);">90%</span>
+                        </div>
+                        <div class="mastery-bar-track" style="background:rgba(255,255,255,0.08); height:10px; border-radius:5px; overflow:hidden;">
+                            <div class="mastery-bar-fill" data-target-value="90" style="background:linear-gradient(90deg, var(--gold), var(--accent)); height:100%; width:0%; transition: width 1.2s ease;"></div>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- Stats -->
-            <section class="stats-section section"
-                style="margin: 0 -24px; padding: 80px 24px; border-radius: var(--radius-xl);">
-                <div class="stats-grid">
-                    <div class="stat-item fade-in">
-                        <div class="stat-number" data-target="150">0</div>
-                        <div class="stat-label">Productions Completed</div>
+            <!-- Milestones Section (Zero equipment mentions) -->
+            <section class="section" style="padding-top: 20px;">
+                <div style="text-align:center; max-width:650px; margin:0 auto 40px;">
+                    <span class="tagline-sub">OUR EVOLUTION</span>
+                    <h2 class="section-title fade-in">Agency <span class="accent-text" style="color:var(--gold);">Milestones</span></h2>
+                </div>
+                <div class="timeline" style="display:grid; gap:20px; max-width:800px; margin:0 auto;">
+                    <div class="timeline-item fade-in" style="display:grid; grid-template-columns: 80px 1fr; gap:20px; align-items:center;">
+                        <div class="timeline-year" style="font-size:1.4rem; font-weight:700; color:var(--gold);">2024</div>
+                        <div class="timeline-content glass-card" style="background:var(--bg-card); border:1px solid var(--border); padding:20px; border-radius:var(--radius-md);">
+                            <h3 style="color:var(--text-primary); margin-bottom:4px;">Inception & Influencer Network Launch</h3>
+                            <p style="color:var(--text-secondary); font-size:0.9rem;">Founded The SparQlane to bridge creator influence with high-end visual brand strategy across regional markets.</p>
+                        </div>
                     </div>
-                    <div class="stat-item fade-in">
-                        <div class="stat-number" data-target="80">0</div>
-                        <div class="stat-label">Brands & Clients Served</div>
+                    <div class="timeline-item fade-in" style="display:grid; grid-template-columns: 80px 1fr; gap:20px; align-items:center;">
+                        <div class="timeline-year" style="font-size:1.4rem; font-weight:700; color:var(--gold);">2025</div>
+                        <div class="timeline-content glass-card" style="background:var(--bg-card); border:1px solid var(--border); padding:20px; border-radius:var(--radius-md);">
+                            <h3 style="color:var(--text-primary); margin-bottom:4px;">PR & Local Media House Expansion</h3>
+                            <p style="color:var(--text-secondary); font-size:0.9rem;">Established dedicated PR channels, local news updates hubs, and short film production teams.</p>
+                        </div>
                     </div>
-                    <div class="stat-item fade-in">
-                        <div class="stat-number" data-target="3">0</div>
-                        <div class="stat-label">Years Active</div>
-                    </div>
-                    <div class="stat-item fade-in">
-                        <div class="stat-number" data-target="200">0</div>
-                        <div class="stat-label">Ad Campaigns & Films</div>
+                    <div class="timeline-item fade-in" style="display:grid; grid-template-columns: 80px 1fr; gap:20px; align-items:center;">
+                        <div class="timeline-year" style="font-size:1.4rem; font-weight:700; color:var(--gold);">2026</div>
+                        <div class="timeline-content glass-card" style="background:var(--bg-card); border:1px solid var(--border); padding:20px; border-radius:var(--radius-md);">
+                            <h3 style="color:var(--text-primary); margin-bottom:4px;">Full-Scale Digital & Cinematic Powerhouse</h3>
+                            <p style="color:var(--text-secondary); font-size:0.9rem;">Executing multi-city influencer campaigns, car delivery cinematic shoots, and press campaigns across 9 major industry niches.</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
             <!-- Call to Action -->
-            <section class="about-cta-panel glass-card fade-in">
-                <h2>Have a story to tell?</h2>
-                <p>Let's collaborate to bring your vision to life with professional color grading, seamless transitions,
-                    and cinema-grade pacing.</p>
-                <a href="contact.html" class="btn btn-primary btn-glow-pulse">Get Started →</a>
+            <section class="about-cta-panel glass-card fade-in" style="background:linear-gradient(135deg, rgba(65,16,32,0.8), rgba(24,5,12,0.9)); border:1px solid var(--border-light); padding:50px 30px; border-radius:var(--radius-xl); text-align:center; margin-top:50px;">
+                <span class="tagline-sub">LET'S COLLABORATE</span>
+                <h2 style="font-size:2rem; color:var(--text-primary); margin:10px 0 14px;">Ready to Elevate Your Brand Strategy?</h2>
+                <p style="color:var(--text-secondary); max-width:600px; margin:0 auto 24px;">Request a custom, tailored proposal specifically designed around your niche, campaign objectives, and budget.</p>
+                <button onclick="openQuoteModal()" class="btn btn-primary btn-glow-pulse" style="background:linear-gradient(135deg, var(--gold), #b89228); color:#120308; font-weight:700; border-radius:40px; padding:14px 36px;">
+                    ✨ Get Custom Quote
+                </button>
             </section>
 
         </div>
@@ -267,10 +205,15 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="nav-logo">
-                        <img src="img/logo.webp" alt="NPJ Productions Logo" class="nav-logo-img" style="height: 48px;" loading="lazy">
-                        <span class="setting-site_name">NPJ Productions</span>
+                        <div class="nav-logo-text">
+                            <span class="brand-name-title">the <span>SparQlane</span></span>
+                            <span class="brand-tagline-micro">WHERE STORY MEETS CREATIVITY</span>
+                        </div>
                     </a>
                 </div>
+            </div>
+            <div class="footer-bottom">
+                &copy; 2026 <span class="setting-site_name">The SparQlane</span>. All rights reserved.
             </div>
         </div>
     </footer>
@@ -278,19 +221,17 @@
     <!-- ── Scripts ─────────────────────────────────────────────────────────── -->
     <script src="js/api.js"></script>
     <script>
-        /* ── Scroll Progress Indicator ──────────────────────────────────────── */
         window.addEventListener("scroll", () => {
             const scrollProgress = document.getElementById("scroll-progress");
             if (scrollProgress) {
                 const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
                 if (totalHeight > 0) {
-                    const progress = (window.scrollY / totalHeight) * 100;
-                    scrollProgress.style.width = progress + "%";
+                    scrollProgress.style.width = ((window.scrollY / totalHeight) * 100) + "%";
                 }
             }
+            document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
         });
 
-        /* Nav toggle */
         const navToggle = document.getElementById("nav-toggle");
         const navLinks = document.getElementById("nav-links");
         navToggle.addEventListener("click", () => {
@@ -298,11 +239,6 @@
             navLinks.classList.toggle("open");
         });
 
-        window.addEventListener("scroll", () => {
-            document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
-        });
-
-        /* Fade-in observer */
         const observer = new IntersectionObserver(
             (entries) => entries.forEach((e) => {
                 if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); }
@@ -311,36 +247,12 @@
         );
         document.querySelectorAll(".fade-in, .fade-in-left, .fade-in-right").forEach((el) => observer.observe(el));
 
-        /* Animated counter */
-        const statsObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const el = entry.target;
-                        const target = parseInt(el.dataset.target);
-                        let current = 0;
-                        const step = Math.max(1, Math.floor(target / 60));
-                        const timer = setInterval(() => {
-                            current += step;
-                            if (current >= target) { current = target; clearInterval(timer); }
-                            el.textContent = current + "+";
-                        }, 25);
-                        statsObserver.unobserve(el);
-                    }
-                });
-            },
-            { threshold: 0.5 }
-        );
-        document.querySelectorAll(".stat-number[data-target]").forEach((el) => statsObserver.observe(el));
-
-        /* Animated progress bars */
         const masteryObserver = new IntersectionObserver(
             (entries) => {
                 entries.forEach((entry) => {
                     if (entry.isIntersecting) {
                         const el = entry.target;
-                        const targetVal = el.dataset.targetValue;
-                        el.style.width = targetVal + "%";
+                        el.style.width = el.dataset.targetValue + "%";
                         masteryObserver.unobserve(el);
                     }
                 });

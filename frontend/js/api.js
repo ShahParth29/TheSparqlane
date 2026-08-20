@@ -322,30 +322,25 @@ async function applySiteSettings() {
         window.siteSettings = settings; // Cache settings globally
 
         if (settings.site_name) {
-            // Dynamically update document title if it contains the fallback name
-            if (document.title.includes("NPJ Productions")) {
-                document.title = document.title.replace(/NPJ Productions/g, settings.site_name);
-            }
-            if (document.title.includes("Dhruvam Productions")) {
-                document.title = document.title.replace(/Dhruvam Productions/g, settings.site_name);
+            // Dynamically update document title if it contains old names
+            for (const oldName of ["NPJ Productions", "Dhruvam Productions", "NextFrame Studios"]) {
+                if (document.title.includes(oldName)) {
+                    document.title = document.title.replace(new RegExp(oldName, "g"), settings.site_name);
+                }
             }
             
             // Dynamically update description meta tag
             const descriptionMeta = document.querySelector('meta[name="description"]');
             if (descriptionMeta && descriptionMeta.content) {
-                if (descriptionMeta.content.includes("NPJ Productions")) {
-                    descriptionMeta.content = descriptionMeta.content.replace(/NPJ Productions/g, settings.site_name);
-                }
-                if (descriptionMeta.content.includes("Dhruvam Productions")) {
-                    descriptionMeta.content = descriptionMeta.content.replace(/Dhruvam Productions/g, settings.site_name);
+                for (const oldName of ["NPJ Productions", "Dhruvam Productions", "NextFrame Studios"]) {
+                    if (descriptionMeta.content.includes(oldName)) {
+                        descriptionMeta.content = descriptionMeta.content.replace(new RegExp(oldName, "g"), settings.site_name);
+                    }
                 }
             }
 
             document.querySelectorAll(".setting-site_name").forEach(el => {
-                // Skip logo elements that use the image logo
-                if (el.tagName === "SPAN" && el.classList.contains("logo-accent")) {
-                    return; // Logo is now image-based, skip text replacement
-                }
+                if (el.classList.contains("logo-accent")) return;
                 el.textContent = settings.site_name;
             });
         }
@@ -606,5 +601,206 @@ window.fetch = async function(...args) {
     }
     return res;
 };
+
+/* ── HTML Entity Escaper for XSS Security ──────────────────────────────────── */
+function escapeHTML(str) {
+    if (!str) return "";
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+}
+
+/* ── Interactive Custom Quote Modal System ─────────────────────────────────── */
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. Inject Floating CTA if not present
+    if (!document.getElementById("floating-quote-btn") && !document.querySelector(".admin-page")) {
+        const floatBtn = document.createElement("button");
+        floatBtn.id = "floating-quote-btn";
+        floatBtn.className = "floating-quote-btn";
+        floatBtn.innerHTML = `✨ <span>Get Custom Quote</span>`;
+        floatBtn.onclick = () => openQuoteModal();
+        document.body.appendChild(floatBtn);
+    }
+
+    // 2. Inject Modal Overlay HTML if not present
+    if (!document.getElementById("quote-modal-overlay")) {
+        const modalDiv = document.createElement("div");
+        modalDiv.id = "quote-modal-overlay";
+        modalDiv.className = "quote-modal-overlay";
+        modalDiv.innerHTML = `
+            <div class="quote-modal-content">
+                <button class="quote-modal-close" onclick="closeQuoteModal()" aria-label="Close modal">&times;</button>
+                <div class="quote-modal-header">
+                    <span class="tagline-sub">The SparQlane • Custom Proposal</span>
+                    <h2>Get Your Custom Quote</h2>
+                    <p>Select your required services and niches for a tailored strategic estimate.</p>
+                </div>
+                <form id="quote-modal-form" onsubmit="handleQuoteSubmit(event)">
+                    <!-- Honeypot anti-spam field -->
+                    <input type="text" name="website" style="display:none;" tabindex="-1" autocomplete="off">
+                    
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label class="form-label" style="font-size:0.9rem; color:var(--gold); font-weight:600; display:block; margin-bottom:8px;">1. Select Required Services (Multi-select)</label>
+                        <div class="quote-chip-group">
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="Influencer Marketing" checked><span class="quote-chip-label">📢 Influencer Marketing</span></label>
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="Influencer Handling"><span class="quote-chip-label">📱 Influencer Social Media Handling</span></label>
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="PR & Media House"><span class="quote-chip-label">📰 PR & Media House Coverage</span></label>
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="Local Media & Updates"><span class="quote-chip-label">🏙️ Local Media & Local Updates</span></label>
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="Social Media Management"><span class="quote-chip-label">🔥 Social Media Management</span></label>
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="Cinematography Shoot"><span class="quote-chip-label">🎬 Cinematic Shoots</span></label>
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="Car Delivery Shoot"><span class="quote-chip-label">🏎️ Car Delivery Shoots</span></label>
+                            <label class="quote-chip-item"><input type="checkbox" name="services" value="Short Films & Commercials"><span class="quote-chip-label">🍿 Short Films & Ad Films</span></label>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 20px;">
+                        <label class="form-label" style="font-size:0.9rem; color:var(--gold); font-weight:600; display:block; margin-bottom:8px;">2. Select Category / Niche (Choose 1 Category Only) *</label>
+                        <div class="quote-chip-group">
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Travel" required checked><span class="quote-chip-label">✈️ Travel</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Food"><span class="quote-chip-label">🍕 Food</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Fashion"><span class="quote-chip-label">👗 Fashion</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Beauty"><span class="quote-chip-label">💄 Beauty</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Lifestyle"><span class="quote-chip-label">✨ Lifestyle</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Fitness"><span class="quote-chip-label">💪 Fitness</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Business"><span class="quote-chip-label">💼 Business</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="History"><span class="quote-chip-label">🏛️ History</span></label>
+                            <label class="quote-chip-item"><input type="radio" name="niche" value="Explore"><span class="quote-chip-label">🔍 Explore</span></label>
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                        <div class="form-group">
+                            <label for="q-name" class="form-label" style="font-size:0.85rem; color:var(--text-secondary);">Your Full Name *</label>
+                            <input type="text" id="q-name" name="name" required class="form-input" placeholder="e.g. Alexander Vance" style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff;">
+                        </div>
+                        <div class="form-group">
+                            <label for="q-email" class="form-label" style="font-size:0.85rem; color:var(--text-secondary);">Email Address *</label>
+                            <input type="email" id="q-email" name="email" required class="form-input" placeholder="name@company.com" style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff;">
+                        </div>
+                    </div>
+
+                    <div class="form-grid" style="display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px;">
+                        <div class="form-group">
+                            <label for="q-phone" class="form-label" style="font-size:0.85rem; color:var(--text-secondary);">Phone / WhatsApp *</label>
+                            <input type="tel" id="q-phone" name="phone" required class="form-input" placeholder="+91 98765 43210" style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff;">
+                        </div>
+                        <div class="form-group">
+                            <label for="q-budget" class="form-label" style="font-size:0.85rem; color:var(--text-secondary);">Estimated Budget Range *</label>
+                            <select id="q-budget" name="budget_range" class="form-input" style="width:100%; padding:10px 14px; background:#4D0717; border:1px solid var(--border); border-radius:8px; color:#fff;">
+                                <option value="₹5,000 - ₹15,000">₹5,000 - ₹15,000</option>
+                                <option value="₹15,000 - ₹35,000" selected>₹15,000 - ₹35,000</option>
+                                <option value="₹35,000 - ₹60,000">₹35,000 - ₹60,000</option>
+                                <option value="₹60,000 - ₹1,00,000">₹60,000 - ₹1,00,000</option>
+                                <option value="₹1,00,000+ Custom Campaign">₹1,00,000+ Custom Campaign</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom: 24px;">
+                        <label for="q-message" class="form-label" style="font-size:0.85rem; color:var(--text-secondary);">Project Brief & Requirements *</label>
+                        <textarea id="q-message" name="message" rows="3" required class="form-input" placeholder="Describe your brand goals, target audience, preferred launch date..." style="width:100%; padding:10px 14px; background:rgba(255,255,255,0.05); border:1px solid var(--border); border-radius:8px; color:#fff; resize:vertical;"></textarea>
+                    </div>
+
+                    <div id="quote-form-status" style="margin-bottom:16px; font-weight:600; font-size:0.9rem;"></div>
+
+                    <button type="submit" class="btn btn-primary" id="quote-submit-btn" style="width:100%; padding:14px; background:linear-gradient(135deg, var(--gold), #b89228); color:#120308; font-weight:700; border-radius:10px; border:none; cursor:pointer;">
+                        Submit Custom Quote Request →
+                    </button>
+                </form>
+            </div>
+        `;
+        document.body.appendChild(modalDiv);
+    }
+
+    // Attach trigger event listeners to all links/buttons with class 'nav-cta', 'open-quote-modal', or href='contact.html' / 'pricing.html'
+    document.querySelectorAll(".open-quote-modal, a[href='pricing.html'], a[href='contact.html']").forEach(elem => {
+        if (!elem.classList.contains("no-modal-redirect")) {
+            elem.addEventListener("click", (e) => {
+                if (elem.classList.contains("open-quote-modal") || elem.classList.contains("nav-cta") || elem.classList.contains("btn-quote")) {
+                    e.preventDefault();
+                    openQuoteModal();
+                }
+            });
+        }
+    });
+});
+
+function openQuoteModal(preselectedService = "") {
+    const modal = document.getElementById("quote-modal-overlay");
+    if (modal) {
+        modal.classList.add("active");
+        document.body.style.overflow = "hidden";
+        if (preselectedService) {
+            const checkbox = modal.querySelector(`input[value="${preselectedService}"]`);
+            if (checkbox) checkbox.checked = true;
+        }
+    }
+}
+
+function closeQuoteModal() {
+    const modal = document.getElementById("quote-modal-overlay");
+    if (modal) {
+        modal.classList.remove("active");
+        document.body.style.overflow = "";
+    }
+}
+
+async function handleQuoteSubmit(event) {
+    event.preventDefault();
+    const form = event.target;
+    const submitBtn = document.getElementById("quote-submit-btn");
+    const statusDiv = document.getElementById("quote-form-status");
+
+    const selectedServices = Array.from(form.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
+    const selectedNicheRadio = form.querySelector('input[name="niche"]:checked');
+    const selectedNiche = selectedNicheRadio ? selectedNicheRadio.value : "General";
+
+    const name = form.name.value.trim();
+    const email = form.email.value.trim();
+    const phone = form.phone.value.trim();
+    const budget_range = form.budget_range.value;
+    const message = form.message.value.trim();
+    const website = form.website ? form.website.value : "";
+
+    const project_type = selectedServices.length > 0 
+        ? `Quote: ${selectedServices.join(", ")} (${selectedNiche})`
+        : `Custom Agency Quote (${selectedNiche})`;
+
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = "Processing Request...";
+    statusDiv.style.color = "var(--gold-bright)";
+    statusDiv.textContent = "Encrypting & Submitting Quote Request...";
+
+    try {
+        const result = await submitEnquiry({
+            name,
+            email,
+            phone,
+            project_type,
+            budget_range,
+            event_date: selectedNiche,
+            message: `Selected Category: ${selectedNiche}\nBudget Range: ${budget_range}\n\nClient Brief:\n${message}`,
+            website,
+        });
+
+        statusDiv.style.color = "var(--success)";
+        statusDiv.textContent = "✓ Quote request submitted! Our team will contact you within 24 hours.";
+        form.reset();
+        setTimeout(() => {
+            closeQuoteModal();
+            statusDiv.textContent = "";
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "Submit Custom Quote Request →";
+        }, 2500);
+    } catch (err) {
+        statusDiv.style.color = "var(--error)";
+        statusDiv.textContent = `❌ Submission failed: ${err.message}`;
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = "Submit Custom Quote Request →";
+    }
+}
 
 
