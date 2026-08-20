@@ -165,31 +165,25 @@ async function submitEnquiry(data) {
 
     // 2. Dispatch to Web3Forms API to send directly to thesparqlane@gmail.com
     try {
-        const web3Key = window.WEB3FORMS_ACCESS_KEY || "f4d7d2c8-96d7-483b-8f12-9949a4fee7cd";
-        const web3Payload = {
-            access_key: "f4d7d2c8-96d7-483b-8f12-9949a4fee7cd",
-            subject: `✨ New Custom Quote Request: ${data.project_type || 'The Sparqlane Proposal'}`,
-            from_name: "The Sparqlane Portal",
-            to_email: "thesparqlane@gmail.com",
-            name: data.name,
-            email: data.email,
-            phone: data.phone,
-            services_and_project: data.project_type,
-            budget_range: data.budget_range,
-            category_niche: data.event_date || "General",
-            message: data.message
-        };
+        const formData = new FormData();
+        formData.append("access_key", "f4d7d2c8-96d7-483b-8f12-9949a4fee7cd");
+        formData.append("subject", `✨ New Quote Request from ${data.name} — ${data.project_type || 'The Sparqlane'}`);
+        formData.append("from_name", "The Sparqlane Website");
+        formData.append("name", data.name);
+        formData.append("email", data.email);
+        formData.append("phone", data.phone);
+        formData.append("service_and_niche", data.project_type || "Custom Proposal");
+        formData.append("budget", data.budget_range || "Custom");
+        formData.append("message", data.message);
 
-        fetch("https://api.web3forms.com/submit", {
+        const w3Response = await fetch("https://api.web3forms.com/submit", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json"
-            },
-            body: JSON.stringify(web3Payload)
-        }).catch(err => console.warn("Web3Forms client dispatch info:", err));
+            body: formData
+        });
+        const w3Data = await w3Response.json();
+        console.log("Web3Forms Email Dispatch Status:", w3Data);
     } catch (w3err) {
-        console.warn("Web3Forms handling:", w3err);
+        console.warn("Web3Forms dispatch warning:", w3err);
     }
 
     return backendResult || { message: "Your custom quote request has been received! Our team will get back to you within 24 hours." };
