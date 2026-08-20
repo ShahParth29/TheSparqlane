@@ -94,10 +94,10 @@ function handleLogout() {
 function switchAdminTab(tab) {
     currentAdminTab = tab;
 
-    document.querySelectorAll(".admin-tab").forEach((t) => t.classList.remove("active"));
+    document.querySelectorAll(".sidebar-btn").forEach((t) => t.classList.remove("active"));
     document.querySelectorAll(".admin-panel").forEach((p) => p.classList.remove("active"));
 
-    document.querySelector(`.admin-tab[data-tab="${tab}"]`).classList.add("active");
+    document.querySelector(`.sidebar-btn[data-tab="${tab}"]`).classList.add("active");
     document.getElementById(`panel-${tab}`).classList.add("active");
 
     loadAdminTab(tab);
@@ -311,21 +311,40 @@ async function loadAdminEnquiries() {
         tbody.innerHTML = enquiries
             .map(
                 (eq) => `
-            <tr style="opacity: ${eq.is_read ? 0.5 : 1}">
-                <td><strong>${eq.name}</strong></td>
-                <td>${eq.email}</td>
-                <td>${eq.project_type}</td>
+            <tr style="opacity: ${eq.is_read ? 0.6 : 1}">
+                <td><strong>${eq.name}</strong><br><span style="font-size:0.75rem;color:var(--text-muted);">${eq.email}</span></td>
+                <td><span class="badge ${eq.is_read ? 'badge-muted' : 'badge-gold'}">${eq.project_type}</span></td>
                 <td>${eq.budget_range || "—"}</td>
                 <td>${eq.event_date || "—"}</td>
                 <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;" title="${eq.message}">${eq.message}</td>
                 <td>
-                    <button class="toggle-btn ${eq.is_read ? "on" : ""}" onclick="toggleRead(${eq.id})">
+                    <button class="read-pill ${eq.is_read ? "read" : "unread"}" onclick="toggleRead(${eq.id})">
                         ${eq.is_read ? "Read" : "Unread"}
                     </button>
                 </td>
             </tr>`
             )
             .join("");
+
+        // Update dashboard stats
+        const total = enquiries.length;
+        const readCount = enquiries.filter(e => e.is_read).length;
+        const unreadCount = total - readCount;
+        
+        const statTotal = document.getElementById("stat-total");
+        const statUnread = document.getElementById("stat-unread");
+        const statRead = document.getElementById("stat-read");
+        const sidebarBadge = document.getElementById("unread-badge");
+
+        if (statTotal) statTotal.textContent = total;
+        if (statUnread) statUnread.textContent = unreadCount;
+        if (statRead) statRead.textContent = readCount;
+        
+        if (sidebarBadge) {
+            sidebarBadge.textContent = unreadCount;
+            sidebarBadge.style.display = unreadCount > 0 ? "inline-block" : "none";
+        }
+        
     } catch (err) {
         tbody.innerHTML = `<tr><td colspan="7" style="text-align:center;padding:32px;color:var(--error);">Failed to load enquiries</td></tr>`;
     }
