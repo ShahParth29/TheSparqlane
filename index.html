@@ -4,74 +4,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NPJ Productions — Cinematic Video & Film Production</title>
+    <title>The SparQlane — Influencer Marketing, PR, Media House & Cinematic Studio</title>
     <meta name="description"
-        content="Professional cinematic video production portfolio by NPJ Productions. High-end wedding highlights, commercial ads, corporate documentaries, and creative reels.">
+        content="The SparQlane — Where Story Meets Creativity. Premier agency for Influencer Marketing, PR, Media House coverage, Local Media Updates, Social Media Management, and Cinematic Shoots (Car Delivery, Short Films).">
     <link rel="stylesheet" href="css/style.css">
 
     <!-- Favicon & App Icons -->
     <link rel="icon" type="image/x-icon" href="favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
     <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="img/favicon-512x512.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://npjproductions.dpdns.org/">
-    <meta property="og:title" content="NPJ Productions — Cinematic Video & Film Production">
-    <meta property="og:description" content="Professional cinematic video production portfolio by NPJ Productions. High-end wedding highlights, commercial ads, corporate documentaries, and creative reels.">
-    <meta property="og:image" content="https://npjproductions.dpdns.org/img/favicon-512x512.png">
+    <meta property="og:url" content="https://thesparqlane.com/">
+    <meta property="og:title" content="The SparQlane — Where Story Meets Creativity">
+    <meta property="og:description" content="Premier agency for Influencer Marketing, PR, Media House coverage, Local Media Updates, Social Media Management, and Cinematic Shoots.">
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://npjproductions.dpdns.org/">
-    <meta property="twitter:title" content="NPJ Productions — Cinematic Video & Film Production">
-    <meta property="twitter:description" content="Professional cinematic video production portfolio by NPJ Productions. High-end wedding highlights, commercial ads, corporate documentaries, and creative reels.">
-    <meta property="twitter:image" content="https://npjproductions.dpdns.org/img/favicon-512x512.png">
-
-    <!-- Schema.org JSON-LD structured data for NPJ Productions -->
+    <!-- Schema.org JSON-LD structured data for The SparQlane -->
     <script type="application/ld+json">
     {
       "@context": "https://schema.org",
-      "@type": "ProfessionalService",
-      "name": "NPJ Productions",
-      "image": "https://npjproductions.dpdns.org/img/favicon-512x512.png",
-      "@id": "https://npjproductions.dpdns.org/#organization",
-      "url": "https://npjproductions.dpdns.org/",
+      "@type": "MarketingAgency",
+      "name": "The SparQlane",
+      "alternateName": "where story meets creativity",
+      "url": "https://thesparqlane.com/",
       "telephone": "+918141050770",
-      "priceRange": "$$",
+      "priceRange": "$$$",
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Ahmedabad",
         "addressLocality": "Ahmedabad",
         "addressRegion": "Gujarat",
-        "postalCode": "380001",
         "addressCountry": "IN"
       },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 23.0225,
-        "longitude": 72.5714
-      },
-      "openingHoursSpecification": {
-        "@type": "OpeningHoursSpecification",
-        "dayOfWeek": [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday"
-        ],
-        "opens": "09:00",
-        "closes": "21:00"
-      },
       "sameAs": [
-        "https://instagram.com/npjproductions",
-        "https://youtube.com/npjproductions",
-        "https://x.com/npjproductions"
+        "https://instagram.com/thesparqlane",
+        "https://youtube.com/thesparqlane",
+        "https://x.com/thesparqlane"
       ]
     }
     </script>
@@ -86,8 +54,10 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <a href="index.html" class="nav-logo">
-                <img src="img/logo.webp" alt="NPJ Productions Logo" class="nav-logo-img">
-                <span class="setting-site_name">NPJ Productions</span>
+                <div class="nav-logo-text">
+                    <span class="brand-name-title">the <span>SparQlane</span></span>
+                    <span class="brand-tagline-micro">WHERE STORY MEETS CREATIVITY</span>
+                </div>
             </a>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -96,53 +66,136 @@
                 <li><a href="index.html" class="active">Home</a></li>
                 <li><a href="works.html">Works</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="contact.html" class="nav-cta">Hire Us</a></li>
+                <li><a href="pricing.html">Get Custom Quote</a></li>
+                <li><a href="blog.html">Blog & Media</a></li>
+                <li><a href="#" onclick="openQuoteModal(); return false;" class="nav-cta btn-glow-pulse">Get Custom Quote</a></li>
             </ul>
         </div>
     </nav>
 
     <!-- ── Hero Section ───────────────────────────────────────────────────── -->
     <section class="hero">
-        <!-- Cinematic Viewfinder Frame -->
-        <div class="viewfinder-frame">
-            <div class="viewfinder-corner top-left"></div>
-            <div class="viewfinder-corner top-right"></div>
-            <div class="viewfinder-corner bottom-left"></div>
-            <div class="viewfinder-corner bottom-right"></div>
-            <div class="viewfinder-status">
-                <span class="rec-dot"></span> REC
-            </div>
-            <div class="viewfinder-info-left">RAW 4K 24FPS</div>
-            <div class="viewfinder-info-right">ISO 400 &bull; F/2.8 &bull; 1/50</div>
-            <div class="viewfinder-crosshair"></div>
-        </div>
         <div class="hero-content animate-entrance stagger-1">
-            <div class="hero-badge animate-entrance stagger-2">Available for Projects</div>
-            <h1 class="animate-entrance stagger-3">Transforming Moments into <span class="gradient-text">Cinematic Masterpieces</span></h1>
-            <p class="setting-tagline animate-entrance stagger-4">Professional production house crafting cinematic stories
-                that captivate audiences and leave lasting impressions.</p>
-            <div class="hero-tags animate-entrance stagger-4">
-                <span>Cinematic Films</span>
-                <span class="dot"></span>
-                <span>Instagram Reels</span>
-                <span class="dot"></span>
-                <span>Wedding Videos</span>
-            </div>
+            <div class="tagline-sub animate-entrance stagger-2" style="margin-bottom: 12px;">WHERE STORY MEETS CREATIVITY</div>
+            <h1 class="animate-entrance stagger-3" style="font-size: clamp(2.4rem, 5.5vw, 4.2rem); margin-bottom: 20px;">
+                Elevating Brands via <span class="gradient-text" style="background: linear-gradient(135deg, var(--gold-bright), var(--text-primary)); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Influencer Power & Cinema</span>
+            </h1>
+            <p class="setting-tagline animate-entrance stagger-4" style="max-width: 780px; margin: 0 auto 28px; font-size: 1.15rem; color: var(--text-secondary);">
+                Full-service creative agency, PR powerhouse, and media house. We blend influencer marketing, local media coverage, viral social media management, and high-impact cinematic shoots.
+            </p>
 
-            <div class="hero-buttons animate-entrance stagger-5">
-                <a href="works.html" class="btn btn-primary btn-glow-pulse">See Our Work →</a>
-                <a href="contact.html" class="btn btn-secondary">Hire Us</a>
+            <div class="hero-buttons animate-entrance stagger-5" style="display:flex; gap:16px; justify-content:center; flex-wrap:wrap;">
+                <button onclick="openQuoteModal()" class="btn btn-primary btn-glow-pulse" style="background: linear-gradient(135deg, var(--gold), #b89228); color:#120308; font-weight:700; padding: 14px 32px; border-radius: 40px;">
+                    ✨ Get Custom Quote
+                </button>
+                <a href="works.html" class="btn btn-secondary" style="border-radius: 40px; padding: 14px 28px; border-color: var(--border);">
+                    Explore Visual Reels →
+                </a>
             </div>
         </div>
     </section>
 
-    <!-- ── Featured Videos ────────────────────────────────────────────────── -->
-    <section class="section" id="featured-section">
+    <!-- ── Niche Marquee Ticker ───────────────────────────────────────────── -->
+    <div class="niche-ticker-section">
+        <div class="niche-ticker-track">
+            <div class="niche-pill-item"><span class="niche-pill-icon">✈️</span> Travel</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🍕</span> Food & Culinary</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">👗</span> High Fashion</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">💄</span> Beauty & Cosmetics</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">✨</span> Luxury Lifestyle</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">💪</span> Fitness & Wellness</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">💼</span> Corporate & Business</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🏛️</span> History & Heritage</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🏎️</span> Car Delivery Shoots</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🍿</span> Short Films</div>
+            <!-- Duplicate for continuous marquee -->
+            <div class="niche-pill-item"><span class="niche-pill-icon">✈️</span> Travel</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🍕</span> Food & Culinary</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">👗</span> High Fashion</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">💄</span> Beauty & Cosmetics</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">✨</span> Luxury Lifestyle</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">💪</span> Fitness & Wellness</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">💼</span> Corporate & Business</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🏛️</span> History & Heritage</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🏎️</span> Car Delivery Shoots</div>
+            <div class="niche-pill-item"><span class="niche-pill-icon">🍿</span> Short Films</div>
+        </div>
+    </div>
+
+    <!-- ── Services Section ───────────────────────────────────────────────── -->
+    <section class="section" id="services-section">
         <div class="container">
-            <h2 class="section-title fade-in">Featured <span class="accent-text">Work</span></h2>
-            <p class="section-subtitle fade-in">Hand-picked projects that showcase our production works</p>
+            <div style="text-align:center; max-width:700px; margin: 0 auto 50px;">
+                <span class="tagline-sub">WHAT WE OFFER</span>
+                <h2 class="section-title fade-in">Digital & <span class="accent-text" style="color:var(--gold);">Cinematic Solutions</span></h2>
+                <p class="section-subtitle fade-in">Comprehensive media handling, public relations, and cinematic storytelling tailored to your brand goals.</p>
+            </div>
+
+            <div class="workflow-grid" style="display:grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
+                
+                <div class="workflow-card glass-card fade-in" style="background: var(--bg-card); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-lg); position:relative;">
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">📢</div>
+                    <h3 style="font-size: 1.35rem; color: var(--gold-bright); margin-bottom: 10px;">Influencer Marketing</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                        End-to-end creator discovery, campaign strategy, negotiation, and viral campaign execution with top-tier macro and micro influencers across India.
+                    </p>
+                    <button onclick="openQuoteModal('Influencer Marketing')" class="btn btn-secondary" style="margin-top: 20px; font-size: 0.82rem; border-color: var(--border);">Request Custom Quote →</button>
+                </div>
+
+                <div class="workflow-card glass-card fade-in" style="background: var(--bg-card); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-lg);">
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">📱</div>
+                    <h3 style="font-size: 1.35rem; color: var(--gold-bright); margin-bottom: 10px;">Influencer Handling</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                        Dedicated management for creators & influencers: brand deal acquisition, contract curation, content calendar scheduling, and audience growth optimization.
+                    </p>
+                    <button onclick="openQuoteModal('Influencer Handling')" class="btn btn-secondary" style="margin-top: 20px; font-size: 0.82rem; border-color: var(--border);">Request Custom Quote →</button>
+                </div>
+
+                <div class="workflow-card glass-card fade-in" style="background: var(--bg-card); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-lg);">
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">📰</div>
+                    <h3 style="font-size: 1.35rem; color: var(--gold-bright); margin-bottom: 10px;">PR & Media House</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                        Strategic press release distribution, digital media placements, crisis communication, corporate branding, and high-impact media house publishing.
+                    </p>
+                    <button onclick="openQuoteModal('PR & Media House')" class="btn btn-secondary" style="margin-top: 20px; font-size: 0.82rem; border-color: var(--border);">Request Custom Quote →</button>
+                </div>
+
+                <div class="workflow-card glass-card fade-in" style="background: var(--bg-card); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-lg);">
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">🏙️</div>
+                    <h3 style="font-size: 1.35rem; color: var(--gold-bright); margin-bottom: 10px;">Local Media & Updates</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                        Hyper-targeted regional media campaigns, local news coverage, city-wide updates, and grassroots community engagement across major Indian hubs.
+                    </p>
+                    <button onclick="openQuoteModal('Local Media & Local Updates')" class="btn btn-secondary" style="margin-top: 20px; font-size: 0.82rem; border-color: var(--border);">Request Custom Quote →</button>
+                </div>
+
+                <div class="workflow-card glass-card fade-in" style="background: var(--bg-card); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-lg);">
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">🔥</div>
+                    <h3 style="font-size: 1.35rem; color: var(--gold-bright); margin-bottom: 10px;">Social Media Management</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                        Full account orchestration for Instagram, YouTube, LinkedIn, and X: content strategy, short-form reel editing, copywriting, and engagement scaling.
+                    </p>
+                    <button onclick="openQuoteModal('Social Media Management')" class="btn btn-secondary" style="margin-top: 20px; font-size: 0.82rem; border-color: var(--border);">Request Custom Quote →</button>
+                </div>
+
+                <div class="workflow-card glass-card fade-in" style="background: var(--bg-card); border: 1px solid var(--border); padding: 32px; border-radius: var(--radius-lg);">
+                    <div style="font-size: 2.2rem; margin-bottom: 16px;">🏎️</div>
+                    <h3 style="font-size: 1.35rem; color: var(--gold-bright); margin-bottom: 10px;">Cinematography & Shoots</h3>
+                    <p style="color: var(--text-secondary); font-size: 0.95rem; line-height: 1.6;">
+                        Cinema-grade film production including **Car Delivery Shoots**, **Short Films**, luxury brand ads, fashion lookbooks, and high-energy promotional reels.
+                    </p>
+                    <button onclick="openQuoteModal('Cinematography Shoot')" class="btn btn-secondary" style="margin-top: 20px; font-size: 0.82rem; border-color: var(--border);">Request Custom Quote →</button>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- ── Featured Portfolio ─────────────────────────────────────────────── -->
+    <section class="section" id="featured-section" style="padding-top: 40px;">
+        <div class="container">
+            <h2 class="section-title fade-in">Cinematic <span class="accent-text" style="color:var(--gold);">Portfolio</span></h2>
+            <p class="section-subtitle fade-in">Curated visual productions and campaign highlights</p>
             <div class="featured-grid" id="featured-grid">
                 <div class="loading">
                     <div class="spinner"></div>
@@ -151,44 +204,42 @@
         </div>
     </section>
 
-    <!-- ── Cinema Gear Strip ──────────────────────────────────────────────── -->
-    <section class="tools-strip section" style="padding: 60px 0;">
+    <!-- ── Agency Performance Impact ──────────────────────────────────────── -->
+    <section class="stats-section section" style="padding: 80px 0; background: linear-gradient(180deg, var(--bg-primary), #200711);">
         <div class="container">
-            <h2 class="section-title fade-in" style="margin-bottom: 40px;">Cinema <span
-                    class="accent-text">Gear Suite</span></h2>
-            <div class="tools-grid">
-                <div class="tool-badge fade-in">
-                    <span class="tool-icon">🎥</span> RED Cinema Cameras
+            <div class="stats-grid">
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="250">0</div>
+                    <div class="stat-label">Influencer Campaigns</div>
                 </div>
-                <div class="tool-badge fade-in">
-                    <span class="tool-icon">📷</span> Sony FX Cinema Series
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="180">0</div>
+                    <div class="stat-label">Brands & Media Clients</div>
                 </div>
-                <div class="tool-badge fade-in">
-                    <span class="tool-icon">🚁</span> DJI Mavic / Cine Drones
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="15">0</div>
+                    <div class="stat-label">Million+ Content Impressions</div>
                 </div>
-                <div class="tool-badge fade-in">
-                    <span class="tool-icon">🎨</span> DaVinci Resolve Studio
+                <div class="stat-item fade-in">
+                    <div class="stat-number" data-target="100">0</div>
+                    <div class="stat-label">Cinematic Shoots Executed</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- ── Stats Section ──────────────────────────────────────────────────── -->
-    <section class="stats-section section" style="padding: 80px 0;">
+    <!-- ── Custom Quote CTA Banner ────────────────────────────────────────── -->
+    <section class="section" style="padding: 60px 0;">
         <div class="container">
-            <div class="stats-grid">
-                <div class="stat-item fade-in">
-                    <div class="stat-number" data-target="50">0</div>
-                    <div class="stat-label">Productions Completed</div>
-                </div>
-                <div class="stat-item fade-in">
-                    <div class="stat-number" data-target="30">0</div>
-                    <div class="stat-label">Brands & Clients Served</div>
-                </div>
-                <div class="stat-item fade-in">
-                    <div class="stat-number" data-target="3">0</div>
-                    <div class="stat-label">Years Active</div>
-                </div>
+            <div class="quote-card-builder" style="text-align: center; max-width: 900px; margin: 0 auto; background: linear-gradient(135deg, rgba(65,16,32,0.8), rgba(24,5,12,0.9)); border: 1px solid var(--border-light); padding: 50px 30px;">
+                <span class="tagline-sub">READY TO SHAPE THE NARRATIVE?</span>
+                <h2 style="font-size: 2.2rem; color: var(--text-primary); margin: 12px 0 16px;">Let's Build Your Customized Strategy</h2>
+                <p style="color: var(--text-secondary); max-width: 620px; margin: 0 auto 28px; font-size: 1.05rem;">
+                    We don't offer generic templates or standard fixed prices. Tell us your vision, niche, and target scope to get a bespoke quote.
+                </p>
+                <button onclick="openQuoteModal()" class="btn btn-primary btn-glow-pulse" style="background: linear-gradient(135deg, var(--gold), #b89228); color:#120308; font-weight:700; font-size: 1rem; padding: 16px 36px; border-radius: 50px;">
+                    ✨ Generate Custom Proposal
+                </button>
             </div>
         </div>
     </section>
@@ -209,45 +260,35 @@
             <div class="footer-grid">
                 <div class="footer-brand">
                     <a href="index.html" class="nav-logo">
-                        <img src="img/logo.webp" alt="NPJ Productions Logo" class="nav-logo-img" style="height: 48px;" loading="lazy">
-                        <span class="setting-site_name">NPJ Productions</span>
+                        <div class="nav-logo-text">
+                            <span class="brand-name-title">the <span>SparQlane</span></span>
+                            <span class="brand-tagline-micro">WHERE STORY MEETS CREATIVITY</span>
+                        </div>
                     </a>
-                    <p class="setting-about_text">Premium production house specializing in cinematic films, corporate videos, wedding documentaries, and creative reels.</p>
-                    <div class="footer-social">
-                        <a href="#" title="YouTube" class="setting-youtube" aria-label="YouTube Channel">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-youtube"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33A2.78 2.78 0 0 0 3.4 19c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.25 29 29 0 0 0-.46-5.33z"></path><polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon></svg>
-                        </a>
-                        <a href="#" title="Instagram" class="setting-instagram" aria-label="Instagram Profile">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-instagram"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line></svg>
-                        </a>
-                        <a href="#" title="Twitter" class="setting-twitter" aria-label="Twitter Profile">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" class="x-logo"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
-                        </a>
-                    </div>
+                    <p class="setting-about_text" style="margin-top: 16px;">
+                        Full-service creative agency, PR powerhouse, and media house elevating brands through influencer management, local media updates, and cinematic visual storytelling.
+                    </p>
                 </div>
                 <div>
-                    <h4>Pages</h4>
+                    <h4>Navigation</h4>
                     <ul class="footer-links">
                         <li><a href="works.html">Works</a></li>
-                        <li><a href="about.html">About</a></li>
-                        <li><a href="pricing.html">Pricing</a></li>
-                        <li><a href="blog.html">Blog</a></li>
-                        <li><a href="contact.html">Contact</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="pricing.html">Get Custom Quote</a></li>
+                        <li><a href="blog.html">Blog & Insights</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h4>Contact</h4>
+                    <h4>Direct Contact</h4>
                     <ul class="footer-links">
-                        <li><a href="mailto:npjproductions.in@gmail.com" class="setting-email">npjproductions.in@gmail.com</a>
-                        </li>
+                        <li><a href="mailto:contact@thesparqlane.com" class="setting-email">contact@thesparqlane.com</a></li>
                         <li><a href="tel:+918141050770" class="setting-phone">+91 81410 50770</a></li>
-                        <li class="setting-location" style="color: var(--text-secondary); font-size: 0.9rem;">Ahmedabad,
-                            Gujarat, India</li>
+                        <li class="setting-location" style="color: var(--text-secondary); font-size: 0.9rem;">Ahmedabad, Gujarat, India</li>
                     </ul>
                 </div>
             </div>
             <div class="footer-bottom">
-                &copy; 2026 <span class="setting-site_name">NPJ Productions</span>. All rights reserved.
+                &copy; 2026 <span class="setting-site_name">The SparQlane</span>. All rights reserved. • Where Story Meets Creativity
             </div>
         </div>
     </footer>
@@ -256,19 +297,17 @@
     <script src="js/api.js"></script>
     <script src="js/gallery.js"></script>
     <script>
-        /* ── Scroll Progress Indicator ──────────────────────────────────────── */
         window.addEventListener("scroll", () => {
             const scrollProgress = document.getElementById("scroll-progress");
             if (scrollProgress) {
                 const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
                 if (totalHeight > 0) {
-                    const progress = (window.scrollY / totalHeight) * 100;
-                    scrollProgress.style.width = progress + "%";
+                    scrollProgress.style.width = ((window.scrollY / totalHeight) * 100) + "%";
                 }
             }
+            document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
         });
 
-        /* ── Mobile Nav Toggle ──────────────────────────────────────────────── */
         const navToggle = document.getElementById("nav-toggle");
         const navLinks = document.getElementById("nav-links");
         navToggle.addEventListener("click", () => {
@@ -276,132 +315,13 @@
             navLinks.classList.toggle("open");
         });
 
-        /* ── Navbar scroll effect ───────────────────────────────────────────── */
-        window.addEventListener("scroll", () => {
-            document.getElementById("navbar").classList.toggle("scrolled", window.scrollY > 50);
-        });
-
-        /* ── Intersection Observer for fade-in ──────────────────────────────── */
         const observer = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add("visible");
-                        observer.unobserve(entry.target);
-                    }
-                });
-            },
+            (entries) => entries.forEach((e) => {
+                if (e.isIntersecting) { e.target.classList.add("visible"); observer.unobserve(e.target); }
+            }),
             { threshold: 0.15 }
         );
-
-        document.querySelectorAll(".fade-in, .fade-in-left, .fade-in-right").forEach((el) => {
-            observer.observe(el);
-        });
-
-        /* ── Animated Stats Counter ─────────────────────────────────────────── */
-        const statsObserver = new IntersectionObserver(
-            (entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        const el = entry.target;
-                        const target = parseInt(el.dataset.target);
-                        let current = 0;
-                        const step = Math.max(1, Math.floor(target / 60));
-                        const timer = setInterval(() => {
-                            current += step;
-                            if (current >= target) {
-                                current = target;
-                                clearInterval(timer);
-                            }
-                            el.textContent = current + "+";
-                        }, 25);
-                        statsObserver.unobserve(el);
-                    }
-                });
-            },
-            { threshold: 0.5 }
-        );
-
-        document.querySelectorAll(".stat-number[data-target]").forEach((el) => {
-            statsObserver.observe(el);
-        });
-
-        /* ── Load Featured Videos ───────────────────────────────────────────── */
-        async function loadFeatured() {
-            const grid = document.getElementById("featured-grid");
-            try {
-                const videos = await fetchFeaturedVideos();
-                if (videos.length === 0) {
-                    grid.innerHTML = '<div class="empty-state"><p>No featured videos yet.</p></div>';
-                    return;
-                }
-                grid.innerHTML = videos
-                    .map((v) => {
-                        const thumb = resolveUploadUrl(v.thumbnail_url) || (v.youtube_url ? getYouTubeThumbnail(v.youtube_url) : "") || "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800";
-                        const videoFile = resolveUploadUrl(v.video_file_url || '');
-                        return `
-                        <div class="video-card glass-card fade-in" onclick="openLightbox('${v.youtube_url || ''}', '${videoFile}')">
-                            <div class="video-card-thumb">
-                                <img src="${thumb}" alt="${v.title}" loading="lazy">
-                                <div class="video-card-play"></div>
-                            </div>
-                            <div class="video-card-body">
-                                <span class="category-badge">${v.category}</span>
-                                <h3>${v.title}</h3>
-                            </div>
-                        </div>`;
-                    })
-                    .join("");
-
-                requestAnimationFrame(() => {
-                    grid.querySelectorAll(".fade-in").forEach((el, i) => {
-                        setTimeout(() => el.classList.add("visible"), i * 120);
-                    });
-                });
-            } catch (err) {
-                grid.innerHTML = '<div class="empty-state"><p>Could not load featured videos.</p></div>';
-                console.error(err);
-            }
-        }
-
-        /* ── Load Showreel and Settings ───────────────────────────────────────── */
-        let showreelUrl = "";
-        let showreelFileUrl = "";
-
-        async function initHome() {
-            try {
-                // Fetch all videos to find the absolute latest upload
-                const videos = await fetchVideos();
-                if (videos.length > 0) {
-                    // Sort by id descending to get the absolute latest uploaded video
-                    videos.sort((a, b) => b.id - a.id);
-                    showreelUrl = videos[0].youtube_url || "";
-                    showreelFileUrl = resolveUploadUrl(videos[0].video_file_url || "");
-                    const thumb = resolveUploadUrl(videos[0].thumbnail_url) || (videos[0].youtube_url ? getYouTubeThumbnail(videos[0].youtube_url) : "");
-                    if (thumb) {
-                        const showreelCard = document.getElementById("home-showreel-card");
-                        if (showreelCard) {
-                            showreelCard.style.backgroundImage = `url('${thumb}')`;
-                        }
-                    }
-                }
-            } catch (e) {
-                console.log("Error loading latest video for showreel:", e);
-            }
-
-            // Set showreel onclick handler
-            const showreelCard = document.getElementById("home-showreel-card");
-            if (showreelCard) {
-                showreelCard.onclick = () => {
-                    openLightbox(showreelUrl, showreelFileUrl);
-                };
-            }
-
-            // Load featured work grid
-            await loadFeatured();
-        }
-
-        initHome();
+        document.querySelectorAll(".fade-in, .fade-in-left, .fade-in-right").forEach((el) => observer.observe(el));
     </script>
 </body>
 
