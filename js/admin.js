@@ -15,27 +15,28 @@ function initAdminLogin() {
 
     loginForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-        loginAlert.classList.remove("show", "alert-error", "alert-success");
-        loginAlert.style.display = ""; // Remove any inline display overrides
+        loginAlert.className = "login-alert"; // reset
+        loginAlert.style.display = "";
 
         const userField = document.getElementById("login-username");
         const passField = document.getElementById("login-password");
         const username = userField.value.trim();
         const password = passField.value;
 
-        // Immediately clear input fields to prevent credentials from being read via F12 DOM inspection
-        userField.value = "";
-        passField.value = "";
+        const loginBtn = document.getElementById("login-btn");
+        if (loginBtn) { loginBtn.disabled = true; loginBtn.textContent = "Signing in…"; }
 
         try {
             await adminLogin(username, password);
-            document.getElementById("admin-login-section").style.display = "none";
+            document.getElementById("admin-login-screen").style.display = "none";
             document.getElementById("admin-dashboard").classList.add("active");
             startSessionCountdown();
-            loadAdminTab("videos");
+            loadAdminTab("enquiries");
         } catch (err) {
             loginAlert.textContent = err.message || "Login failed";
-            loginAlert.classList.add("alert-error", "show");
+            loginAlert.classList.add("error");
+        } finally {
+            if (loginBtn) { loginBtn.disabled = false; loginBtn.textContent = "Sign In →"; }
         }
     });
 }
@@ -72,19 +73,19 @@ function handleLogout() {
     }
     const warningEl = document.getElementById("session-warning");
     if (warningEl) warningEl.style.display = "none";
-    
+
     const dashboard = document.getElementById("admin-dashboard");
-    const loginSection = document.getElementById("admin-login-section");
+    const loginScreen = document.getElementById("admin-login-screen");
     if (dashboard) dashboard.classList.remove("active");
-    if (loginSection) loginSection.style.display = "block";
-    
+    if (loginScreen) loginScreen.style.display = "";
+
     const loginForm = document.getElementById("admin-login-form");
     if (loginForm) loginForm.reset();
-    
+
     const loginAlert = document.getElementById("login-alert");
     if (loginAlert) {
         loginAlert.textContent = "";
-        loginAlert.classList.remove("show", "alert-error", "alert-success");
+        loginAlert.className = "login-alert";
         loginAlert.style.display = "";
     }
 }
@@ -620,11 +621,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Auto-login session recovery on reload/refresh
     const savedToken = getAuthToken();
     if (savedToken) {
-        const loginSection = document.getElementById("admin-login-section");
+        const loginScreen = document.getElementById("admin-login-screen");
         const dashboard = document.getElementById("admin-dashboard");
-        if (loginSection) loginSection.style.display = "none";
+        if (loginScreen) loginScreen.style.display = "none";
         if (dashboard) dashboard.classList.add("active");
         startSessionCountdown();
-        loadAdminTab("videos");
+        loadAdminTab("enquiries");
     }
 });
