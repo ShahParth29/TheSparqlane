@@ -111,7 +111,7 @@ def submit_enquiry(data: EnquiryCreate, request: Request, db: Session = Depends(
         web3_payload = {
             "access_key": web3_key,
             "subject": f"✨ New Custom Quote Request from {clean_name} ({clean_project_type})",
-            "from_name": "The SparQlane Portal",
+            "from_name": "The Sparqlane Portal",
             "to_email": "thesparqlane@gmail.com",
             "name": clean_name,
             "email": clean_email,
