@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+import logging
+import traceback
+from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 
 from app.core.database import Base, engine, SessionLocal
@@ -21,6 +24,28 @@ app = FastAPI(
     redoc_url=None,
     openapi_url=None,
 )
+
+# Configure structured logging
+logging.basicConfig(
+    level=logging.INFO,
+    format="%(asctime)s [%(levelname)s] %(name)s: %(message)s",
+)
+logger = logging.getLogger(__name__)
+
+
+# ── Global exception handler — never leak internal details to clients ───────
+@app.exception_handler(Exception)
+async def global_exception_handler(request: Request, exc: Exception):
+    logger.error(
+        "Unhandled exception on %s %s:\n%s",
+        request.method,
+        request.url.path,
+        traceback.format_exc(),
+    )
+    return JSONResponse(
+        status_code=500,
+        content={"detail": "An unexpected error occurred. Please try again later."},
+    )
 
 # ── Security Headers Middleware ────────────────────────────────────────────────
 @app.middleware("http")
@@ -61,24 +86,8 @@ app.include_router(settings.router)
 
 @app.get("/api/health")
 def health_check():
-    import os
-    env_keys = list(os.environ.keys())
-    db_url_masked = "none"
-    if settings_cfg.DATABASE_URL:
-        db_url_masked = settings_cfg.DATABASE_URL.split("@")[-1] if "@" in settings_cfg.DATABASE_URL else settings_cfg.DATABASE_URL
-    return {
-        "status": "ok",
-        "service": "The Sparqlane API",
-        "debug": {
-            "env_keys": [k for k in env_keys if "SECRET" not in k and "PASS" not in k and "KEY" not in k],
-            "has_admin_user": settings_cfg.SPARQLANE_ADMIN_USERNAME is not None,
-            "admin_user": settings_cfg.SPARQLANE_ADMIN_USERNAME,
-            "has_admin_pass": settings_cfg.SPARQLANE_ADMIN_PASSWORD is not None,
-            "admin_pass_len": len(settings_cfg.SPARQLANE_ADMIN_PASSWORD) if settings_cfg.SPARQLANE_ADMIN_PASSWORD else 0,
-            "db_url_masked": db_url_masked,
-            "storage_backend": settings_cfg.STORAGE_BACKEND,
-        }
-    }
+    """Minimal liveness probe — returns no sensitive information."""
+    return {"status": "ok", "service": "The Sparqlane API"}
 
 
 # ── Seed Data ──────────────────────────────────────────────────────────────────

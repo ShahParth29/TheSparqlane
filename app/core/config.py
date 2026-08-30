@@ -18,7 +18,7 @@ class Settings(BaseSettings):
     SMTP_USE_TLS: bool = True
     EMAIL_FROM: str = ""
     EMAIL_TO: str = "thesparqlane@gmail.com"
-    WEB3FORMS_KEY: str = "f4d7d2c8-96d7-483b-8f12-9949a4fee7cd"
+    WEB3FORMS_KEY: str = ""
     UPLOAD_DIR: str = "frontend/uploads"
 
     # Storage backend: "local", "cloudinary", or "s3"
@@ -39,16 +39,34 @@ class Settings(BaseSettings):
 
     # Security
     CORS_ORIGINS: str = "*"  # Comma-separated origins for production
-    LOGIN_RATE_LIMIT: int = 5  # Max login attempts per minute per IP
+
+    # ── Rate limiting (all values are configurable via env vars) ────────────
+    # Auth route limits
+    LOGIN_RATE_LIMIT: int = 5           # max consecutive failures before first lockout
+    LOGIN_RATE_WINDOW_SECONDS: int = 60  # sliding window for counting failures
+    LOGIN_BACKOFF_BASE_SECONDS: int = 30 # base lockout duration; doubles each tier (30s→2m→8m→30m)
+    LOGIN_MAX_LOCKOUT_SECONDS: int = 1800  # cap at 30 minutes
+
+    # Public enquiry route limits
+    ENQUIRY_RATE_LIMIT: int = 5
+    ENQUIRY_RATE_WINDOW_SECONDS: int = 600  # 10 minutes
+
+    # ── File upload size limits ─────────────────────────────────────────────
+    MAX_VIDEO_SIZE_MB: int = 200
+    MAX_IMAGE_SIZE_MB: int = 10
 
     # Supabase Backend Configuration
     SUPABASE_URL: str = ""
     SUPABASE_KEY: str = ""
     SUPABASE_SERVICE_KEY: str = ""
 
+    ADMIN_USERNAME: str = ""
+    ADMIN_PASSWORD: str = ""
+
     class Config:
         env_file = ".env"
         env_file_encoding = "utf-8"
+        extra = "ignore"
 
 
 @lru_cache()

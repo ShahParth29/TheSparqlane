@@ -3,7 +3,7 @@ uvicorn[standard]
 sqlalchemy
 pydantic[email]
 pydantic-settings
-python-jose[cryptography]
+PyJWT[crypto]
 passlib[bcrypt]
 python-multipart
 aiosmtplib

@@ -1,61 +1,160 @@
-from typing import List
-from fastapi import APIRouter, Depends, HTTPException, status, Request
+"""
+Contact & Admin Auth router.
+
+Rate limiting strategy:
+  - Enquiry (public): sliding window per IP, thresholds from Settings.
+  - Login (auth): per-IP + per-account exponential backoff.
+    Tiers: base → base*2 → base*4 → ... capped at LOGIN_MAX_LOCKOUT_SECONDS.
+    All thresholds configurable via environment variables (see config.py).
+"""
+import html
+import logging
 import time
+from dataclasses import dataclass, field
 from datetime import datetime, timezone
+from typing import Dict, List
+
+from fastapi import APIRouter, Depends, HTTPException, Request, status
 from sqlalchemy.orm import Session
 
-from app.core.database import get_db
-from app.core.auth import get_current_admin, create_access_token
+from app.core.auth import create_access_token, get_current_admin
 from app.core.config import get_settings
-from app.core.email import send_email_notification, build_enquiry_email
+from app.core.database import get_db
+from app.core.email import build_enquiry_email, send_email_notification
 from app.models.models import ClientEnquiry
 from app.schemas.schemas import (
-    EnquiryCreate, EnquiryOut, TokenRequest, TokenResponse, MessageResponse,
+    EnquiryCreate,
+    EnquiryOut,
+    MessageResponse,
+    TokenRequest,
+    TokenResponse,
 )
 
-import html
-
+logger = logging.getLogger(__name__)
 router = APIRouter(prefix="/api/contact", tags=["Contact"])
 
-# In-memory stores for rate limiting: IP -> list of floats (timestamps)
-login_attempts = {}
-enquiry_attempts = {}
+# ── In-memory rate-limit stores ────────────────────────────────────────────────
 
+# Enquiry: IP -> list[timestamp]
+_enquiry_attempts: Dict[str, List[float]] = {}
+
+
+# Login: keyed by (IP, username) -> LoginRecord
+@dataclass
+class _LoginRecord:
+    failure_count: int = 0       # cumulative failures in current tier
+    tier: int = 0                # how many times we've locked out so far
+    window_start: float = 0.0    # start of the current failure window
+    locked_until: float = 0.0   # epoch time when lockout expires
+
+
+_login_records: Dict[str, _LoginRecord] = {}
+
+
+# ── Helpers ────────────────────────────────────────────────────────────────────
 
 def sanitize_input(text: str) -> str:
-    """Sanitize string inputs to prevent XSS and HTML injection."""
+    """Escape HTML special characters to prevent XSS."""
     if not text:
         return ""
-    # Strip dangerous HTML tags and escape remaining special characters
-    clean = html.escape(text.strip())
-    return clean
+    return html.escape(text.strip())
 
 
-@router.post("/", response_model=MessageResponse, status_code=status.HTTP_201_CREATED)
-def submit_enquiry(data: EnquiryCreate, request: Request, db: Session = Depends(get_db)):
-    ip = request.client.host if request.client else "unknown"
-    current_time = time.time()
+def _login_key(ip: str, username: str) -> str:
+    return f"{ip}::{username.lower()}"
 
-    # Rate limiting: max 5 submissions per 10 minutes per IP
-    if ip not in enquiry_attempts:
-        enquiry_attempts[ip] = []
-    enquiry_attempts[ip] = [t for t in enquiry_attempts[ip] if current_time - t < 600]
 
-    if len(enquiry_attempts[ip]) >= 5:
-        print(f"[SECURITY] Rate limit exceeded for quote submission from IP: {ip}")
+def _check_login_rate_limit(ip: str, username: str) -> None:
+    """
+    Raise HTTP 429 if the caller is within a lockout window.
+    Uses exponential backoff: lockout = base * 2^tier, capped at max.
+    """
+    cfg = get_settings()
+    key = _login_key(ip, username)
+    now = time.time()
+    rec = _login_records.get(key)
+
+    if rec is None:
+        _login_records[key] = _LoginRecord(window_start=now)
+        return
+
+    # Still locked out?
+    if rec.locked_until > now:
+        remaining = int(rec.locked_until - now)
+        logger.warning(
+            "[AUTH] Login blocked for key=%s, lockout expires in %ds", key, remaining
+        )
         raise HTTPException(
             status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail="Too many quote requests submitted. Please wait a few minutes before submitting again.",
+            detail=f"Too many failed login attempts. Try again in {remaining} seconds.",
         )
 
-    # Honeypot spam check: if website is filled, discard submission silently but return success
+    # Sliding window expired — reset failure counter (but keep tier for next lockout)
+    if now - rec.window_start > cfg.LOGIN_RATE_WINDOW_SECONDS:
+        rec.failure_count = 0
+        rec.window_start = now
+
+
+def _record_login_failure(ip: str, username: str) -> None:
+    """Increment failure count; escalate lockout tier if threshold exceeded."""
+    cfg = get_settings()
+    key = _login_key(ip, username)
+    now = time.time()
+    rec = _login_records.setdefault(key, _LoginRecord(window_start=now))
+
+    rec.failure_count += 1
+
+    if rec.failure_count >= cfg.LOGIN_RATE_LIMIT:
+        lockout = min(
+            cfg.LOGIN_BACKOFF_BASE_SECONDS * (2 ** rec.tier),
+            cfg.LOGIN_MAX_LOCKOUT_SECONDS,
+        )
+        rec.locked_until = now + lockout
+        rec.tier += 1
+        rec.failure_count = 0
+        rec.window_start = now
+        logger.warning(
+            "[AUTH] IP=%s user='%s' locked out for %ds (tier %d)",
+            ip, username, lockout, rec.tier,
+        )
+
+
+def _clear_login_record(ip: str, username: str) -> None:
+    """Clear rate-limit record on successful login."""
+    _login_records.pop(_login_key(ip, username), None)
+
+
+# ── Public: Enquiry ────────────────────────────────────────────────────────────
+
+@router.post("/", response_model=MessageResponse, status_code=status.HTTP_201_CREATED)
+def submit_enquiry(
+    data: EnquiryCreate, request: Request, db: Session = Depends(get_db)
+):
+    cfg = get_settings()
+    ip = request.client.host if request.client else "unknown"
+    now = time.time()
+
+    # Sliding-window rate limit (per IP)
+    _enquiry_attempts.setdefault(ip, [])
+    _enquiry_attempts[ip] = [
+        t for t in _enquiry_attempts[ip]
+        if now - t < cfg.ENQUIRY_RATE_WINDOW_SECONDS
+    ]
+    if len(_enquiry_attempts[ip]) >= cfg.ENQUIRY_RATE_LIMIT:
+        logger.warning("[CONTACT] Rate limit exceeded for IP=%s", ip)
+        raise HTTPException(
+            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+            detail="Too many requests. Please wait a few minutes before submitting again.",
+        )
+
+    # Honeypot: silently succeed (don't reveal detection to bots)
     if data.website:
-        print(f"[SPAM DETECTED] Discarding spam submission from {data.email} with honeypot field filled.")
+        logger.info("[CONTACT] Honeypot triggered from IP=%s email=%s", ip, data.email)
         return {"message": "Your custom quote request has been received! Our team will get back to you within 24 hours."}
 
-    enquiry_attempts[ip].append(current_time)
+    _enquiry_attempts[ip].append(now)
 
-    # Sanitize inputs for security
+    # Sanitize
     clean_name = sanitize_input(data.name)
     clean_email = sanitize_input(data.email)
     clean_phone = sanitize_input(data.phone)
@@ -64,6 +163,7 @@ def submit_enquiry(data: EnquiryCreate, request: Request, db: Session = Depends(
     clean_event_date = sanitize_input(data.event_date)
     clean_message = sanitize_input(data.message)
 
+    # Persist
     enquiry = ClientEnquiry(
         name=clean_name,
         email=clean_email,
@@ -77,14 +177,21 @@ def submit_enquiry(data: EnquiryCreate, request: Request, db: Session = Depends(
         db.add(enquiry)
         db.commit()
         db.refresh(enquiry)
-    except Exception as dberr:
+    except Exception as first_err:
+        logger.warning("[CONTACT] First DB commit failed, rolling back: %s", first_err)
         db.rollback()
-        print(f"[DATABASE NOTICE] Retrying commit after stale connection reset: {dberr}")
-        db.add(enquiry)
-        db.commit()
-        db.refresh(enquiry)
+        try:
+            db.add(enquiry)
+            db.commit()
+            db.refresh(enquiry)
+        except Exception as second_err:
+            logger.error("[CONTACT] Second DB commit also failed: %s", second_err)
+            raise HTTPException(
+                status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+                detail="Unable to process your request at this time. Please try again later.",
+            )
 
-    # Send email notification (non-blocking, won't crash on failure)
+    # Email notification (non-blocking)
     try:
         html_body = build_enquiry_email(
             name=clean_name,
@@ -100,82 +207,76 @@ def submit_enquiry(data: EnquiryCreate, request: Request, db: Session = Depends(
             body_html=html_body,
         )
     except Exception as exc:
-        print(f"[CONTACT] Email notification failed: {exc}")
+        logger.warning("[CONTACT] Email notification failed: %s", exc)
 
-    # Direct Web3Forms notification to thesparqlane@gmail.com
+    # Web3Forms notification
     try:
-        import urllib.request
         import json
-        settings = get_settings()
-        web3_key = settings.WEB3FORMS_KEY or "599dfed0-1282-4fdf-b98a-web3formskey"
-        web3_payload = {
-            "access_key": web3_key,
-            "subject": f"✨ New Custom Quote Request from {clean_name} ({clean_project_type})",
-            "from_name": "The Sparqlane Portal",
-            "to_email": "thesparqlane@gmail.com",
-            "name": clean_name,
-            "email": clean_email,
-            "phone": clean_phone,
-            "project_type": clean_project_type,
-            "budget_range": clean_budget_range,
-            "category": clean_event_date,
-            "message": clean_message
-        }
-        req = urllib.request.Request(
-            "https://api.web3forms.com/submit",
-            data=json.dumps(web3_payload).encode("utf-8"),
-            headers={"Content-Type": "application/json", "Accept": "application/json"}
-        )
-        urllib.request.urlopen(req, timeout=5)
-        print(f"[WEB3FORMS] Quote notification dispatched to thesparqlane@gmail.com for {clean_name}.")
+        import urllib.request
+
+        web3_key = cfg.WEB3FORMS_KEY
+        if not web3_key:
+            logger.info("[WEB3FORMS] WEB3FORMS_KEY not configured; skipping dispatch")
+        else:
+            web3_payload = {
+                "access_key": web3_key,
+                "subject": f"✨ New Custom Quote Request from {clean_name} ({clean_project_type})",
+                "from_name": "The Sparqlane Portal",
+                "to_email": cfg.EMAIL_TO,
+                "name": clean_name,
+                "email": clean_email,
+                "phone": clean_phone,
+                "project_type": clean_project_type,
+                "budget_range": clean_budget_range,
+                "category": clean_event_date,
+                "message": clean_message,
+            }
+            req = urllib.request.Request(
+                "https://api.web3forms.com/submit",
+                data=json.dumps(web3_payload).encode("utf-8"),
+                headers={"Content-Type": "application/json", "Accept": "application/json"},
+            )
+            urllib.request.urlopen(req, timeout=5)
+            logger.info("[WEB3FORMS] Notification dispatched for %s", clean_name)
     except Exception as w3err:
-        print(f"[WEB3FORMS] Web3Forms dispatch notification info: {w3err}")
+        logger.warning("[WEB3FORMS] Dispatch failed (non-critical): %s", w3err)
 
     return {"message": "Your custom quote request has been received! Our team will get back to you within 24 hours."}
 
 
-# ── Admin Auth ─────────────────────────────────────────────────────────────────
+# ── Auth ───────────────────────────────────────────────────────────────────────
 
 @router.post("/admin/token", response_model=TokenResponse)
 def admin_login(data: TokenRequest, request: Request):
-    settings = get_settings()
+    cfg = get_settings()
     ip = request.client.host if request.client else "unknown"
-    current_time = time.time()
 
-    # Clean up older timestamps for this IP
-    if ip not in login_attempts:
-        login_attempts[ip] = []
-    login_attempts[ip] = [t for t in login_attempts[ip] if current_time - t < 60]
+    # Check rate limit (per IP + per account)
+    _check_login_rate_limit(ip, data.username)
 
-    # Check rate limit
-    if len(login_attempts[ip]) >= settings.LOGIN_RATE_LIMIT:
-        print(f"[SECURITY] Rate limit exceeded for login attempts from IP: {ip} at {datetime.now(timezone.utc)}")
-        raise HTTPException(
-            status_code=status.HTTP_429_TOO_MANY_REQUESTS,
-            detail="Too many login attempts. Please try again in a minute.",
-        )
+    logger.info(
+        "[AUTH] Login attempt for user='%s' from IP=%s at %s",
+        data.username,
+        ip,
+        datetime.now(timezone.utc).isoformat(),
+    )
 
-    # Log the attempt
-    print(f"[SECURITY] Login attempt for user '{data.username}' from IP '{ip}' at {datetime.now(timezone.utc)}")
-
-    if data.username != settings.SPARQLANE_ADMIN_USERNAME or data.password != settings.SPARQLANE_ADMIN_PASSWORD:
-        login_attempts[ip].append(current_time)
+    # Validate credentials
+    if data.username != cfg.SPARQLANE_ADMIN_USERNAME or data.password != cfg.SPARQLANE_ADMIN_PASSWORD:
+        _record_login_failure(ip, data.username)
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid credentials",
         )
 
-    # Clear rate limit attempts on successful login
-    login_attempts[ip] = []
-
+    _clear_login_record(ip, data.username)
     token = create_access_token({"sub": data.username})
     return {"access_token": token, "token_type": "bearer"}
 
 
-
 # ── Admin Enquiries ────────────────────────────────────────────────────────────
 
-@router.get("/admin/enquiries", response_model=List[EnquiryOut])
+@router.get("/admin/enquiries", response_model=list[EnquiryOut])
 def get_enquiries(
     db: Session = Depends(get_db),
     admin: dict = Depends(get_current_admin),

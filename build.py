@@ -11,7 +11,7 @@ def clean_and_copy():
         print(f"Cleaning existing dist folder: {dist_dir}")
         shutil.rmtree(dist_dir)
     print(f"Copying assets from {src_dir} to {dist_dir}...")
-    shutil.copytree(src_dir, dist_dir)
+    shutil.copytree(src_dir, dist_dir, ignore=shutil.ignore_patterns("uploads"))
 
 def minify_css(css_content):
     # Remove CSS comments

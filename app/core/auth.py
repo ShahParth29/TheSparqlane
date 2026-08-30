@@ -1,13 +1,17 @@
 from datetime import datetime, timedelta, timezone
 from typing import Optional
+import logging
 
 # pyrefly: ignore [missing-import]
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from jose import JWTError, jwt
+import jwt
+from jwt.exceptions import InvalidTokenError
 from passlib.context import CryptContext
 
 from app.core.config import get_settings
+
+logger = logging.getLogger(__name__)
 
 settings = get_settings()
 
@@ -29,14 +33,19 @@ def create_access_token(data: dict, expires_delta: Optional[timedelta] = None) -
         expires_delta or timedelta(minutes=settings.ACCESS_TOKEN_EXPIRE_MINUTES)
     )
     to_encode.update({"exp": expire})
+    # PyJWT: jwt.encode returns str directly (no .decode() needed)
     return jwt.encode(to_encode, settings.SECRET_KEY, algorithm=settings.ALGORITHM)
 
 
 def verify_token(token: str) -> dict:
     try:
-        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        payload = jwt.decode(
+            token,
+            settings.SECRET_KEY,
+            algorithms=[settings.ALGORITHM],
+        )
         return payload
-    except JWTError:
+    except InvalidTokenError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid or expired token",
@@ -50,6 +59,7 @@ def get_current_admin(
     payload = verify_token(credentials.credentials)
     username: str = payload.get("sub")
     if username != settings.SPARQLANE_ADMIN_USERNAME:
+        logger.warning("Token subject '%s' does not match admin username", username)
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Not authorised",
