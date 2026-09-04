@@ -3,33 +3,30 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Blog Post — NPJ Productions</title>
-    <meta name="description" content="Read the latest video production tips and behind-the-scenes stories from NPJ Productions.">
+    <title>Blog Post — The Sparqlane</title>
+    <meta name="description" content="Read the latest influencer marketing trends, media insights, and video production stories from The Sparqlane.">
     <link rel="stylesheet" href="css/style.css">
     <!-- marked.js for rendering markdown -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
 
-    <!-- Favicon & App Icons -->
-    <link rel="icon" type="image/x-icon" href="favicon.ico">
-    <link rel="icon" type="image/png" sizes="16x16" href="img/favicon-16x16.png">
-    <link rel="icon" type="image/png" sizes="32x32" href="img/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="img/favicon-192x192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="img/favicon-512x512.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="img/apple-touch-icon.png">
+    <!-- Favicon & App Icons (Official Logo) -->
+    <link rel="icon" type="image/png" href="img/logo.png">
+    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="apple-touch-icon" href="img/logo.png">
 
     <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://npjproductions.dpdns.org/post.html">
-    <meta property="og:title" content="Blog Post — NPJ Productions">
-    <meta property="og:description" content="Read the latest video production tips and behind-the-scenes stories from NPJ Productions.">
-    <meta property="og:image" content="https://npjproductions.dpdns.org/img/favicon-512x512.png">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://thesparqlane.com/post.html">
+    <meta property="og:title" content="Blog Post — The Sparqlane">
+    <meta property="og:description" content="Read the latest influencer marketing trends, media insights, and video production stories from The Sparqlane.">
+    <meta property="og:image" content="https://thesparqlane.com/img/logo.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://npjproductions.dpdns.org/post.html">
-    <meta property="twitter:title" content="Blog Post — NPJ Productions">
-    <meta property="twitter:description" content="Read the latest video production tips and behind-the-scenes stories from NPJ Productions.">
-    <meta property="twitter:image" content="https://npjproductions.dpdns.org/img/favicon-512x512.png">
+    <meta property="twitter:url" content="https://thesparqlane.com/post.html">
+    <meta property="twitter:title" content="Blog Post — The Sparqlane">
+    <meta property="twitter:description" content="Read the latest influencer marketing trends, media insights, and video production stories from The Sparqlane.">
+    <meta property="twitter:image" content="https://thesparqlane.com/img/logo.png">
 </head>
 <body>
 
@@ -40,8 +37,11 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <a href="index.html" class="nav-logo">
-                <img src="img/logo.webp" alt="NPJ Productions Logo" class="nav-logo-img">
-                <span class="setting-site_name">NPJ Productions</span>
+                <img src="img/logo.png" alt="The Sparqlane Logo" class="nav-logo-img">
+                <div class="nav-logo-text">
+                    <span class="brand-name-title"><span class="brand-the">the</span> Spar<span class="brand-q">q</span>lane</span>
+                    <span class="brand-tagline-micro">WHERE STORY MEETS CREATIVITY</span>
+                </div>
             </a>
             <button class="nav-toggle" id="nav-toggle" aria-label="Toggle navigation menu" aria-expanded="false">
                 <span></span><span></span><span></span>
@@ -49,10 +49,9 @@
             <ul class="nav-links" id="nav-links">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="works.html">Works</a></li>
+                <li><a href="blog.html" class="active">Blog & Media</a></li>
                 <li><a href="about.html">About</a></li>
-                <li><a href="pricing.html">Pricing</a></li>
-                <li><a href="blog.html" class="active">Blog</a></li>
-                <li><a href="contact.html" class="nav-cta">Hire Us</a></li>
+                <li><a href="#" onclick="openQuoteModal(); return false;" class="nav-cta btn-glow-pulse">Get Custom Quote</a></li>
             </ul>
         </div>
     </nav>
@@ -95,7 +94,7 @@
     <footer class="footer" style="margin-top: 40px;">
         <div class="container">
             <div class="footer-bottom">
-                &copy; 2026 <span class="setting-site_name">NPJ Productions</span>. All rights reserved.
+                &copy; 2026 <span class="setting-site_name">The Sparqlane</span>. All rights reserved. • Where Story Meets Creativity
             </div>
         </div>
     </footer>
@@ -142,7 +141,7 @@
                 const post = await fetchBlogPost(slug);
 
                 // Set page title
-                let siteName = "NPJ Productions";
+                let siteName = "The Sparqlane";
                 if (window.siteSettings && window.siteSettings.site_name) {
                     siteName = window.siteSettings.site_name;
                 } else {

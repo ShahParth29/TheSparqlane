@@ -222,7 +222,7 @@ Consistency across shots is more important than any single grade. Use DaVinci Re
 
 ---
 
-*Happy grading! — NPJ Productions*
+*Happy grading! — The Sparqlane*
 """,
             cover_image_url="https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=800",
             category="tips",

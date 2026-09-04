@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: parth-edits-api
+    name: the-sparqlane-api
     env: python
     plan: free # Change to starter to support persistent disks
     buildCommand: pip install -r requirements.txt
@@ -22,7 +22,7 @@ services:
       - key: SECRET_KEY
         generateValue: true
       - key: ADMIN_USERNAME
-        value: admin
+        value: PNG
       - key: ADMIN_PASSWORD
         sync: false
       - key: SMTP_USER
@@ -32,7 +32,7 @@ services:
       - key: EMAIL_FROM
         sync: false
       - key: EMAIL_TO
-        value: npjproductions.in@gmail.com
+        value: thesparqlane@gmail.com
       - key: STORAGE_BACKEND
         value: cloudinary
       - key: CLOUDINARY_CLOUD_NAME

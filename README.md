@@ -1,153 +1,246 @@
-# 🎬 NPJ Productions — Portfolio & Booking Platform
+# ✨ The Sparqlane — Where Story Meets Creativity
 
-A production-ready full-stack portfolio website for NPJ Productions (a videography and video editing studio), featuring a cinematic design, automated asset minification/build step, client-side & server-side honeypot spam protection, customizable SMTP notifications, admin dashboard, blog, pricing, and a client enquiry system.
+<div align="center">
+
+[![Python](https://img.shields.io/badge/Python-3.10%2B-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://python.org)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.111%2B-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com)
+[![Vercel](https://img.shields.io/badge/Deployment-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://vercel.com)
+[![License](https://img.shields.io/badge/License-MIT-F59E0B?style=for-the-badge)](LICENSE)
+[![Status](https://img.shields.io/badge/Status-Production%20Ready-10B981?style=for-the-badge)]()
+
+**A modern, production-grade web platform for The Sparqlane — a premier agency specializing in Influencer Marketing, PR, Media House coverage, Local Media Updates, Social Media Management, and Cinematic Shoots.**
+
+[Live Demo](https://thesparqlane.com) • [Explore Features](#-features) • [Quick Start](#-quick-start) • [Deployment](#-deployment) • [API Docs](#-api-endpoints)
+
+---
+
+</div>
+
+## 📖 Overview
+
+**The Sparqlane** is an end-to-end agency and portfolio platform engineered with a high-performance Python FastAPI backend and an ultra-responsive, aesthetic, dark-mode frontend. Designed to convey luxury, creativity, and cinematic authority, the platform empowers the agency to showcase campaigns, manage client inquiries, publish media insights, and administer agency content securely.
+
+---
+
+## 🌟 Key Features
+
+### 🎨 Frontend Experience
+- **Cinematic & Modern Aesthetic**: Curated obsidian/gold typography, glassmorphism card surfaces, and fluid micro-animations.
+- **Dynamic Portfolio Showcase**: Interactive filterable media gallery supporting YouTube embeds, direct video uploads, and campaign highlights.
+- **Instant Custom Quote Modal**: Interactive multi-step estimator for influencer marketing, PR campaigns, car delivery shoots, and media packages.
+- **Blog & Media House Hub**: Markdown-powered article system with category filtering, reading time estimates, and SEO-optimized metadata.
+- **Spam-Resistant Booking Form**: Dual-layer client-side + server-side honeypot spam traps with real-time feedback.
+- **Automated Asset Optimizer**: Python-powered build step (`build.py`) that minifies HTML, CSS, and JS before production deployment.
+
+### ⚡ Backend & Infrastructure
+- **FastAPI Engine**: Asynchronous, lightweight, and high-throughput Python backend.
+- **Database & ORM**: SQLAlchemy ORM with SQLite for local development and direct pluggability with PostgreSQL / Supabase for enterprise scale.
+- **Multi-Cloud Storage**: Seamless support for Cloudinary CDN, AWS S3 / Cloudflare R2, and local filesystem storage.
+- **Email Dispatcher**: Automated, styled HTML notification emails for new client leads with SMTP (Gmail, SendGrid, Resend, Web3Forms fallback).
+
+### 🔒 Enterprise-Grade Security
+- **JWT Authentication**: Secure Bearer tokens with configurable expiration (HS256).
+- **Password Security**: Bcrypt hashing with salted iterations.
+- **Progressive Adaptive Rate Limiting**: Exponential backoff protection against brute-force login attempts (30s → 2m → 8m → 30m).
+- **Security Headers & CORS**: Strict `X-Content-Type-Options`, `X-Frame-Options`, `X-XSS-Protection`, and origin isolation.
+- **Hidden Admin Surface**: `noindex, nofollow` metadata headers and endpoint access controls.
+
+---
 
 ## 🛠 Tech Stack
 
-| Layer | Technology |
-|-------|-----------|
-| **Frontend** | HTML, CSS, Vanilla JS (Minified via custom build step) |
-| **Backend** | Python, FastAPI, SQLAlchemy |
-| **Database** | SQLite (dev) |
-| **Auth** | JWT (HS256) with bcrypt password hashing |
-| **Storage** | Local filesystem, AWS S3, or Cloudinary CDN |
-| **Email** | SMTP / TLS (Gmail, Resend, SendGrid, etc.) |
-| **Deployment** | Vercel (monorepo frontend server + python API routes) |
-
----
-
-## 🚀 Quick Start (Local Development)
-
-### Prerequisites
-- Python 3.10+
-
-### Setup
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/ShahParth29/portfolio.git
-cd portfolio
-
-# 2. Create virtual environment
-python -m venv venv
-source venv/bin/activate        # macOS/Linux
-venv\Scripts\activate           # Windows
-
-# 3. Install dependencies
-pip install -r requirements.txt
-
-# 4. Set up environment variables
-cp .env.example .env
-# Edit .env with your real values (see Environment Variables section)
-
-# 5. Run the development server
-uvicorn app.main:app --reload --port 8000
-```
-
-Visit `http://localhost:8000` to view the site.
-
----
-
-## 🔐 Environment Variables
-
-All sensitive configuration is managed through environment variables. **Never commit real values to git.**
-
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `DATABASE_URL` | ✅ | Database connection string. Default: `sqlite:///./portfolio.db` |
-| `SECRET_KEY` | ✅ | JWT signing key. Generate with: `python -c "import secrets; print(secrets.token_urlsafe(64))"` |
-| `ADMIN_USERNAME` | ✅ | Admin dashboard login username |
-| `ADMIN_PASSWORD` | ✅ | Admin dashboard login password (use a strong password!) |
-| `SMTP_HOST` | ❌ | SMTP server host. Default: `smtp.gmail.com` |
-| `SMTP_PORT` | ❌ | SMTP server port. Default: `587` |
-| `SMTP_USER` | ❌ | SMTP login username/email for sending notifications |
-| `SMTP_PASSWORD` | ❌ | SMTP login password or App Password |
-| `SMTP_USE_TLS` | ❌ | Connect securely using TLS. Default: `true` |
-| `EMAIL_FROM` | ❌ | Sender email address |
-| `EMAIL_TO` | ❌ | Recipient email for enquiry notifications |
-| `CORS_ORIGINS` | ❌ | Comma-separated allowed origins. Default: `*` |
-| `STORAGE_BACKEND` | ❌ | `local` (default), `cloudinary`, or `s3` |
-| `CLOUDINARY_CLOUD_NAME` | ❌* | Cloudinary cloud name (*required if using Cloudinary) |
-| `CLOUDINARY_API_KEY` | ❌* | Cloudinary API key |
-| `CLOUDINARY_API_SECRET` | ❌* | Cloudinary API secret |
-
----
-
-## 🌐 Deployment
-
-This application is fully compatible with Vercel serverless deployment (handling the frontend assets and python backend API as serverless routes).
-
-### Quick Vercel Setup
-
-1. **Push this repository to GitHub**
-2. **Import to Vercel**: Connect your repo on [Vercel](https://vercel.com).
-3. **Configure Settings**:
-   - Vercel automatically detects the configuration in `vercel.json`.
-   - Set the build command to `python build.py` (handles HTML/CSS/JS minification).
-   - Set the output directory to `dist` (holds optimized static files).
-4. **Environment Variables**: Add your production env keys (`ADMIN_USERNAME`, `ADMIN_PASSWORD`, `SECRET_KEY`, `SMTP_USER`, etc.) in the Vercel project settings.
-5. **Deploy!** Vercel will build the frontend assets using Python, minify them, and mount the FastAPI backend on the `/api/*` pathways.
+| Layer | Technologies |
+|---|---|
+| **Frontend** | Semantic HTML5, Vanilla CSS3 (Custom Design System), Modern JavaScript (ES6+), Marked.js |
+| **Backend** | Python 3.10+, FastAPI, Pydantic v2, Starlette |
+| **Database** | SQLite3 (Development / Single-file) / PostgreSQL Ready (SQLAlchemy ORM) |
+| **Authentication** | OAuth2 Bearer JWT (`python-jose`), Passlib with `bcrypt` |
+| **Cloud Storage** | Cloudinary CDN / AWS S3 / Cloudflare R2 |
+| **Email & Alerts** | Asynchronous SMTP with TLS / Web3Forms fallback |
+| **Build & Optimization** | Custom AST/Regex-based Python Minifier (`build.py`) |
+| **Hosting** | Vercel Serverless API & Static Edge, Render |
 
 ---
 
 ## 📁 Project Structure
 
 ```
-portfolio/
-├── app/                    # FastAPI backend
+the-sparqlane/
+├── api/
+│   └── index.py             # Vercel serverless entry point
+├── app/
 │   ├── core/
-│   │   ├── auth.py         # JWT authentication
-│   │   ├── config.py       # Settings (from env vars)
-│   │   ├── database.py     # SQLAlchemy setup
-│   │   ├── email.py        # SMTP email sender
-│   │   └── storage.py      # File storage (local / Cloudinary)
+│   │   ├── auth.py          # JWT authentication & password verification
+│   │   ├── config.py        # Pydantic settings & environment configuration
+│   │   ├── database.py      # SQLAlchemy session & engine lifecycle
+│   │   ├── email.py         # SMTP email dispatcher & HTML email templates
+│   │   └── storage.py       # Cloudinary & Local file storage abstraction
 │   ├── models/
-│   │   └── models.py       # Database models
+│   │   └── models.py        # Database models (Videos, Posts, Quotes, Settings)
 │   ├── routers/
-│   │   ├── blog.py         # Blog CRUD endpoints
-│   │   ├── contact.py      # Enquiry & auth endpoints
-│   │   ├── pricing.py      # Pricing CRUD endpoints
-│   │   ├── settings.py     # Site settings endpoints
-│   │   └── videos.py       # Video CRUD + upload
+│   │   ├── blog.py          # Blog CRUD & slug query endpoints
+│   │   ├── contact.py       # Contact submission, rate limiter & auth routes
+│   │   ├── pricing.py       # Services & pricing CRUD endpoints
+│   │   ├── settings.py      # Dynamic site configuration endpoints
+│   │   └── videos.py        # Video portfolio management & file uploads
 │   ├── schemas/
-│   │   └── schemas.py      # Pydantic validation schemas
-│   └── main.py             # App entry point + seed data
-├── frontend/               # Static frontend
-│   ├── css/style.css
+│   │   └── schemas.py       # Pydantic request/response models
+│   └── main.py              # FastAPI application bootstrap & seeding
+├── frontend/
+│   ├── css/
+│   │   └── style.css        # Core stylesheet & design tokens
 │   ├── js/
-│   │   ├── api.js          # API client + site settings
-│   │   ├── admin.js        # Admin dashboard logic
-│   │   └── gallery.js      # Portfolio gallery
-│   ├── index.html          # Home page
-│   ├── portfolio.html      # Portfolio gallery
-│   ├── about.html          # About page
-│   ├── pricing.html        # Pricing page
-│   ├── blog.html           # Blog listing
-│   ├── post.html           # Single blog post
-│   ├── contact.html        # Contact / booking form
-│   └── admin.html          # Admin dashboard
-├── .env.example            # Environment variable template
-├── .gitignore              # Git ignore rules
-├── render.yaml             # Render deployment config
-├── vercel.json             # Vercel deployment config
-├── requirements.txt        # Python dependencies
-└── README.md               # This file
+│   │   ├── admin.js         # Admin dashboard logic
+│   │   ├── api.js           # API client, dynamic data loaders & quote modal
+│   │   └── gallery.js       # Dynamic portfolio filter & video modal
+│   ├── img/                 # Logos, favicons & brand assets
+│   ├── index.html           # Landing page & agency showcase
+│   ├── works.html           # Media & cinematic portfolio gallery
+│   ├── about.html           # Story, leadership & agency vision
+│   ├── pricing.html         # Custom pricing calculator & packages
+│   ├── blog.html            # Media insights & blog index
+│   ├── post.html            # Dynamic single article view
+│   ├── contact.html         # Project booking & inquiry form
+│   ├── admin.html           # Secure administrative dashboard
+│   ├── robots.txt           # Search crawler directives
+│   └── sitemap.xml          # XML sitemap
+├── build.py                 # Automated HTML/CSS/JS minifier & bundler
+├── vercel.json              # Vercel deployment & serverless route configuration
+├── render.yaml              # Render cloud infrastructure blueprint
+├── requirements.txt         # Python dependencies
+└── README.md                # Project documentation
 ```
 
 ---
 
-## 🔒 Security Features
+## 🚀 Quick Start (Local Development)
 
-- **JWT Authentication** — Admin endpoints protected with Bearer tokens
-- **bcrypt Password Hashing** — Passwords never stored in plain text at rest
-- **Rate Limiting** — Login attempts limited to 5 per minute per IP
-- **Security Headers** — X-Content-Type-Options, X-Frame-Options, X-XSS-Protection
-- **CORS Protection** — Configurable allowed origins
-- **Admin Panel Hidden from Search Engines** — `noindex, nofollow` meta tag
-- **Environment-Based Config** — No credentials in source code
+### 1. Prerequisites
+- **Python**: 3.10 or higher
+- **Git**: Installed on your system
+
+### 2. Clone & Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/ShahParth29/TheSparqlane.git
+cd TheSparqlane
+
+# Create and activate virtual environment
+python -m venv venv
+
+# On macOS/Linux:
+source venv/bin/activate
+
+# On Windows:
+venv\Scripts\activate
+
+# Install dependencies
+pip install -r requirements.txt
+```
+
+### 3. Configure Environment
+
+Create a `.env` file from the provided `.env.example`:
+
+```bash
+cp .env.example .env
+```
+
+Edit `.env` with your settings:
+```env
+SECRET_KEY=your_generated_secret_key_here
+SPARQLANE_ADMIN_USERNAME=PNG
+SPARQLANE_ADMIN_PASSWORD=your_secure_password
+
+# Email configuration
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USER=your_email@gmail.com
+SMTP_PASSWORD=your_app_password
+EMAIL_FROM=your_email@gmail.com
+EMAIL_TO=thesparqlane@gmail.com
+
+# Storage (optional: "local" or "cloudinary")
+STORAGE_BACKEND=local
+```
+
+### 4. Run the Application
+
+```bash
+uvicorn app.main:app --reload --port 8000
+```
+
+Open your browser and navigate to:
+- **Website**: `http://localhost:8000`
+- **Interactive API Docs (Swagger)**: `http://localhost:8000/docs`
+- **Admin Portal**: `http://localhost:8000/admin.html`
+
+---
+
+## 🔐 Environment Variables
+
+| Variable | Required | Default | Description |
+|---|:---:|---|---|
+| `DATABASE_URL` | ✅ | `sqlite:///./portfolio.db` | SQLAlchemy connection string |
+| `SECRET_KEY` | ✅ | — | JWT signing key (generate via `secrets.token_urlsafe(64)`) |
+| `SPARQLANE_ADMIN_USERNAME` | ✅ | `PNG` | Administrative dashboard login username |
+| `SPARQLANE_ADMIN_PASSWORD` | ✅ | — | Administrative dashboard login password |
+| `SMTP_HOST` | ❌ | `smtp.gmail.com` | Outgoing SMTP mail server |
+| `SMTP_PORT` | ❌ | `587` | Outgoing SMTP port (TLS) |
+| `SMTP_USER` | ❌ | — | Mail account username |
+| `SMTP_PASSWORD` | ❌ | — | Mail account app password |
+| `EMAIL_TO` | ❌ | `thesparqlane@gmail.com` | Lead notification destination address |
+| `STORAGE_BACKEND` | ❌ | `local` | Storage provider (`local`, `cloudinary`, `s3`) |
+| `CLOUDINARY_CLOUD_NAME` | ❌* | — | Required if `STORAGE_BACKEND=cloudinary` |
+| `CLOUDINARY_API_KEY` | ❌* | — | Required if `STORAGE_BACKEND=cloudinary` |
+| `CLOUDINARY_API_SECRET` | ❌* | — | Required if `STORAGE_BACKEND=cloudinary` |
+| `CORS_ORIGINS` | ❌ | `*` | Comma-separated allowed CORS origins |
+
+---
+
+## 🌐 Deployment
+
+### Deploying to Vercel (Recommended)
+
+This project is configured out-of-the-box for zero-configuration serverless deployment on Vercel via [`vercel.json`](vercel.json):
+
+1. **Push to GitHub**: Ensure your code is pushed to your GitHub repository.
+2. **Connect to Vercel**: Import the project repository in your [Vercel Dashboard](https://vercel.com).
+3. **Build & Output Settings**:
+   - **Build Command**: `python build.py`
+   - **Output Directory**: `dist`
+4. **Environment Variables**: Add your production variables (`SECRET_KEY`, `SPARQLANE_ADMIN_USERNAME`, `SPARQLANE_ADMIN_PASSWORD`, `SMTP_*`, etc.) under Project Settings → Environment Variables.
+5. **Deploy**: Hit Deploy. Vercel will automatically build the minified frontend and mount the serverless Python API handlers.
+
+---
+
+## 📡 API Endpoints
+
+### Public Routes
+- `GET /api/videos` — Retrieve published portfolio video list
+- `GET /api/blog` — List published blog articles
+- `GET /api/blog/{slug}` — Retrieve single article by slug
+- `GET /api/pricing` — List services and packages
+- `GET /api/settings` — Get dynamic site metadata and branding
+- `POST /api/contact` — Submit client inquiry (Protected by Rate Limiter & Honeypot)
+- `POST /api/auth/token` — Admin login and JWT token generation
+
+### Admin Routes (Protected by `Bearer <JWT>`)
+- `POST /api/videos` / `PUT /api/videos/{id}` / `DELETE /api/videos/{id}` — Video CRUD
+- `POST /api/videos/upload` — Direct media file upload
+- `POST /api/blog` / `PUT /api/blog/{id}` / `DELETE /api/blog/{id}` — Blog CRUD
+- `PUT /api/settings` — Update global site settings and copy
 
 ---
 
 ## 📄 License
 
-MIT License — feel free to fork and customize for your own portfolio.
+Distributed under the **MIT License**. See [`LICENSE`](LICENSE) for more information.
+
+<div align="center">
+
+Made with ❤️ by **The Sparqlane Team**  
+*Where Story Meets Creativity*
+
+</div>

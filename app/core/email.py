@@ -53,7 +53,7 @@ def build_enquiry_email(name: str, email: str, phone: str, project_type: str,
                 box-shadow:0 10px 30px rgba(0,0,0,0.5);border:1px solid rgba(139,92,246,0.2);">
         <div style="background:linear-gradient(135deg,#e5b842,#a87c11);padding:32px;text-align:center;">
             <h1 style="margin:0;font-size:26px;color:#ffffff;font-weight:700;text-transform:uppercase;letter-spacing:1px;">🎬 New Client Enquiry</h1>
-            <p style="margin:8px 0 0;color:rgba(255,255,255,0.85);font-size:14px;">A potential client has requested details on NPJ Productions</p>
+            <p style="margin:8px 0 0;color:rgba(255,255,255,0.85);font-size:14px;">A potential client has requested details on The Sparqlane</p>
         </div>
         <div style="padding:32px;background:#080721;">
             <table style="width:100%;border-collapse:collapse;margin-bottom:24px;">
@@ -89,7 +89,7 @@ def build_enquiry_email(name: str, email: str, phone: str, project_type: str,
             </div>
         </div>
         <div style="background:rgba(255,255,255,0.02);text-align:center;padding:16px;border-top:1px solid rgba(255,255,255,0.05);font-size:12px;color:#64748b;">
-            This enquiry was sent automatically from the NPJ Productions Booking Portal.
+            This enquiry was sent automatically from The Sparqlane Portal.
         </div>
     </div>
     """
